@@ -5,27 +5,15 @@ struct WASDUnlockPatch : Xbyak::CodeGenerator
 {
     WASDUnlockPatch()
     {
-        nop(); // 1
         nop();
         nop();
-        nop();
-        nop(); // 5
-        nop();
-        nop();
-        nop();
-        nop();
-        nop(); // 10
-        nop();
-        nop();
-        nop(); // 13
     }
 };
 
 void* WASDUnlock::Search(uintptr_t a_base = 0)
 {
     return dku::Hook::Assembly::search_pattern<
-        "44 ?? ?? ?? ?? ?? ?? 0F ?? ?? ?? ?? ?? 49 ?? ?? ?? 8B ?? ?? ?? ?? ?? 39 ?? ?? ?? ?? ?? "
-        "0F">(a_base);
+        "74 E6 E8 9F D6 E6 FF">(a_base);
 }
 
 bool WASDUnlock::Prepare()

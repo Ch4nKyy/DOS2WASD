@@ -5,7 +5,7 @@
 bool BlockHoldInteractMovePatch::Prepare()
 {
     std::array<uintptr_t, 1> address_array = { AsAddress(dku::Hook::Assembly::search_pattern<
-        "C7 46 20 00 01 00 00">()) };
+        "C6 46 21 01">()) };
     addresses = address_array;
 
     all_found = true;
@@ -28,7 +28,7 @@ void BlockHoldInteractMovePatch::Enable()
 {
     BlockHoldInteractMovePatchAsm patch;
     patch.ready();
-    handle = dku::Hook::AddASMPatch(addresses[0], { 0, 7 }, &patch);
+    handle = dku::Hook::AddASMPatch(addresses[0], { 0, 4 }, &patch);
 }
 
 void BlockHoldInteractMovePatch::Activate()

@@ -5,7 +5,7 @@
 bool BlockInteractMovePatch::Prepare()
 {
     std::array<uintptr_t, 1> address_array = { AsAddress(
-        dku::Hook::Assembly::search_pattern<"41 83 38 04 48 8B ?? 48 8B ?? ?? 48 8B">()) };
+        dku::Hook::Assembly::search_pattern<"41 83 38 04 48 8B DA 4C 8B 51 08">()) };
     addresses = address_array;
 
     all_found = true;

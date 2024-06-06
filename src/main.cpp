@@ -1,34 +1,32 @@
-#include "Addresses/IsInControllerMode.hpp"
 #include "Addresses/LoadInputConfig.hpp"
 #include "Hooks/AfterChangingKeybindInMenuHook.hpp"
 #include "Hooks/AfterInitialLoadInputConfigHook.hpp"
 #include "Hooks/CallSpecificCommandFunctionPre2Cavehook.hpp"
-#include "Hooks/CastOrCancelAbilityHook.hpp"
+#include "Hooks/CastOrCancelAbilityKeydownCavehook.hpp"
+#include "Hooks/CastOrCancelAbilityKeyupHook.hpp"
 #include "Hooks/CheckCommandInputsHook.hpp"
 #include "Hooks/CheckContextMenuOrCancelActionHook.hpp"
 #include "Hooks/ConcatInputconfigPathHook.hpp"
 #include "Hooks/DecideMoveUpdaterHook.hpp"
-#include "Hooks/FTBEndHook.hpp"
-#include "Hooks/FTBStartHook.hpp"
 #include "Hooks/GetCameraObjectHook.hpp"
 #include "Hooks/GetInputValueHook.hpp"
-#include "Hooks/InputHook.hpp"
 #include "Hooks/InsideUpdateInteractMoveCavehook.hpp"
+#include "Hooks/MouseDeltaCavehook.hpp"
+#include "Hooks/PitchHook.hpp"
 #include "Hooks/PollEventHook.hpp"
-#include "Hooks/ResetCursorRotateHook.hpp"
-#include "Hooks/SDL_GetWindowGrabHook.hpp"
-#include "Hooks/SetCursorRotateHook.hpp"
+#include "Hooks/SDL_SetWindowGrabHook.hpp"
+#include "Hooks/SetOrResetCursorRotateCavehook.hpp"
 #include "Hooks/SetVirtualCursorPosHook.hpp"
 #include "Hooks/WASDUnlock.hpp"
-#include "Hooks/WindowGainFocusHook.hpp"
-#include "InputconfigPatcher.hpp"
+#include "Hooks/ZoomHook.hpp"
+#include "InputHook.hpp"
 #include "MessageBox.hpp"
-#include "Patches/BlockAnalogStickSelection2Patch.hpp"
-#include "Patches/BlockAnalogStickSelectionPatch.hpp"
 #include "Patches/BlockCancelActionStoppingMovementPatch.hpp"
 #include "Patches/BlockHoldInteractMovePatch.hpp"
 #include "Patches/BlockInteractMovePatch.hpp"
-#include "SDL.h"
+#include "Patches/CenterCameraAlwaysJumps.hpp"
+#include "Patches/FixWalking1.hpp"
+#include "Patches/FixWalking2.hpp"
 #include "Settings.hpp"
 #include "State.hpp"
 #include "VersionInfo.hpp"
@@ -44,7 +42,7 @@ BOOL APIENTRY DllMain(HMODULE a_hModule, DWORD a_ul_reason_for_call, LPVOID a_lp
         }
 #endif
         dku::Logger::Init(Plugin::NAME, std::to_string(Plugin::Version));
-        dku::Hook::Trampoline::AllocTrampoline(1 << 9);
+        dku::Hook::Trampoline::AllocTrampoline(1 << 10);
 
         VersionInfo::Print(a_hModule);
 
@@ -59,6 +57,8 @@ BOOL APIENTRY DllMain(HMODULE a_hModule, DWORD a_ul_reason_for_call, LPVOID a_lp
         // With SDL 2.24 and spam-clicking Rotate I could bug the cursor so that it would
         // warp to the center of the screen.
         // Using SDL 2.28 and this Hint fixes this issue.
+        // Also, the original DOS2 SDL2.7 does not provide SDL_HINT_MOUSE_RELATIVE_MODE_CENTER,
+        // which is required for the cursor to stay in place during rotation.
         SDL_SetHint(SDL_HINT_MOUSE_RELATIVE_MODE_CENTER, "0");
 
         auto* settings = Settings::GetSingleton();
@@ -67,69 +67,58 @@ BOOL APIENTRY DllMain(HMODULE a_hModule, DWORD a_ul_reason_for_call, LPVOID a_lp
         std::string errors;
 
         bool wasd_unlock = WASDUnlock::Prepare();
-        bool get_camera_object_hook = GetCameraObjectHook::Prepare();
-        bool character_movement_input_vector_hook = GetInputValueHook::Prepare();
-        bool is_in_controller_mode = IsInControllerMode::Prepare();
+        bool movement_input = GetInputValueHook::Prepare();
         bool load_input_config = LoadInputConfig::Prepare();
         bool after_changing_keybind_in_menu_hook = AfterChangingKeybindInMenuHook::Prepare();
         bool after_initial_load_inputconfig_hook = AfterInitialLoadInputConfigHook::Prepare();
-        bool load_string_hook = ConcatInputconfigPathHook::Prepare();
-        bool block_analog_stick_selection_patch = BlockAnalogStickSelectionPatch::Prepare();
-        bool block_analog_stick_selection_patch2 = BlockAnalogStickSelection2Patch::Prepare();
-        if (wasd_unlock && get_camera_object_hook && character_movement_input_vector_hook &&
-            is_in_controller_mode && after_changing_keybind_in_menu_hook && load_input_config &&
-            after_initial_load_inputconfig_hook && load_string_hook &&
-            block_analog_stick_selection_patch && block_analog_stick_selection_patch2)
+        bool concat_inputconfig_path_hook = ConcatInputconfigPathHook::Prepare();
+        bool center_cam_always_jumps = CenterCameraAlwaysJumps::Prepare();
+        bool cam_obj = GetCameraObjectHook::Prepare();
+        bool fix_walking1 = FixWalking1::Prepare();
+        bool fix_walking2 = FixWalking2::Prepare();
+        if (wasd_unlock && load_input_config && after_initial_load_inputconfig_hook &&
+            concat_inputconfig_path_hook && movement_input && after_changing_keybind_in_menu_hook &&
+            cam_obj && center_cam_always_jumps && fix_walking1 && fix_walking2)
         {
             InputHook::Enable(a_hModule);  // throws on error
             WASDUnlock::Enable();
-            GetCameraObjectHook::Enable();
             GetInputValueHook::Enable();
             AfterChangingKeybindInMenuHook::Enable();
             AfterInitialLoadInputConfigHook::Enable();
             ConcatInputconfigPathHook::Enable();
-            BlockAnalogStickSelectionPatch::Enable();
-            BlockAnalogStickSelectionPatch::Activate();
-            BlockAnalogStickSelection2Patch::Enable();
-            BlockAnalogStickSelection2Patch::Activate();
+            CenterCameraAlwaysJumps::Enable();
+            CenterCameraAlwaysJumps::Activate();
+            GetCameraObjectHook::Enable();
+            FixWalking1::Enable();
+            FixWalking1::Activate();
+            FixWalking2::Enable();
+            FixWalking2::Activate();
 
-            bool ftb_start_hook = FTBStartHook::Prepare();
-            bool ftb_end_hook = FTBEndHook::Prepare();
-            if (ftb_start_hook && ftb_end_hook)
-            {
-                FTBStartHook::Enable();
-                FTBEndHook::Enable();
-            }
-            else
-            {
-                errors.append(
-                    "Auto toggling movement mode at forced turn-based mode start/end could not be "
-                    "enabled.\n");
-            }
+            // needed for both improved mouselook AND interact move canceller
+            bool check_command_inputs_hook = CheckCommandInputsHook::Prepare();
 
             bool set_virtual_cursor_pos_hook = SetVirtualCursorPosHook::Prepare();
-            bool get_window_grab_hook = SDL_GetWindowGrabHook::Prepare();
-            bool set_cursor_rotate_hook = SetCursorRotateHook::Prepare();
-            bool reset_cursor_rotate_hook = ResetCursorRotateHook::Prepare();
+            bool set_window_grab_hook = SDL_SetWindowGrabHook::Prepare();
+            bool set_cursor_rotate_hook = SetOrResetCursorRotateCavehook::Prepare();
             bool check_context_menu_or_cancel_action_hook =
                 CheckContextMenuOrCancelActionHook::Prepare();
-            bool cast_or_cancel_ability_hook = CastOrCancelAbilityHook::Prepare();
+            bool cast_or_cancel_keyup = CastOrCancelAbilityKeyupHook::Prepare();
+            bool cast_or_cancel_keydown = CastOrCancelAbilityKeydownCavehook::Prepare();
             bool poll_event_hook = PollEventHook::Prepare();
-            bool check_command_inputs_hook = CheckCommandInputsHook::Prepare();
 
             // TODO ToggleMouselook
             // bool windows_gain_focus_hook = WindowGainFocusHook::Prepare();
-            
-            if (set_virtual_cursor_pos_hook && get_window_grab_hook && set_cursor_rotate_hook &&
-                reset_cursor_rotate_hook && check_context_menu_or_cancel_action_hook &&
-                cast_or_cancel_ability_hook && poll_event_hook && check_command_inputs_hook)
+
+            if (set_virtual_cursor_pos_hook && set_window_grab_hook &&
+                check_context_menu_or_cancel_action_hook && check_command_inputs_hook &&
+                cast_or_cancel_keyup && cast_or_cancel_keydown && set_cursor_rotate_hook)
             {
                 SetVirtualCursorPosHook::Enable();
-                SDL_GetWindowGrabHook::Enable();
-                SetCursorRotateHook::Enable();
-                ResetCursorRotateHook::Enable();
+                SDL_SetWindowGrabHook::Enable();
+                SetOrResetCursorRotateCavehook::Enable();
                 CheckContextMenuOrCancelActionHook::Enable();
-                CastOrCancelAbilityHook::Enable();
+                CastOrCancelAbilityKeyupHook::Enable();
+                CastOrCancelAbilityKeydownCavehook::Enable();
                 PollEventHook::Enable();
                 CheckCommandInputsHook::Enable();
 
@@ -150,8 +139,8 @@ BOOL APIENTRY DllMain(HMODULE a_hModule, DWORD a_ul_reason_for_call, LPVOID a_lp
             bool block_cancel_stopping_movement_patch =
                 BlockCancelActionStoppingMovementPatch::Prepare();
             if (decide_move_updater_hook && inside_update_interact_move_hook &&
-                call_specific_command_function_pre2_hook && block_interact_move_patch &&
-                block_hold_interact_move_patch && block_cancel_stopping_movement_patch)
+                call_specific_command_function_pre2_hook && block_hold_interact_move_patch &&
+                block_cancel_stopping_movement_patch && block_interact_move_patch)
             {
                 DecideMoveUpdaterHook::Enable();
                 InsideUpdateInteractMoveCavehook::Enable();
@@ -166,6 +155,20 @@ BOOL APIENTRY DllMain(HMODULE a_hModule, DWORD a_ul_reason_for_call, LPVOID a_lp
             else
             {
                 errors.append("InteractMoveBlocker could not be enabled.\n");
+            }
+
+            bool mouse_delta = MouseDeltaCavehook::Prepare();
+            bool pitch = PitchHook::Prepare();
+            bool zoom = ZoomHook::Prepare();
+            if (mouse_delta && pitch && zoom)
+            {
+                MouseDeltaCavehook::Enable();
+                PitchHook::Enable();
+                ZoomHook::Enable();
+            }
+            else
+            {
+                errors.append("Camera Improvements could not be enabled.\n");
             }
         }
         else

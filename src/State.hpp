@@ -15,7 +15,10 @@ public:
     int frames_to_hold_forward_to_center_camera = 0;
     std::vector<std::string> character_forward_keys;
     std::vector<std::string> character_backward_keys;
+    std::vector<std::string> context_menu_keys;
     std::wstring inputconfig_path = L"";
+
+    bool ContextMenuHasSameKeyAsRotate();
 
     void SetMovementModeToggled(bool in_value);
     void SetMovementModeHeld(bool in_value);
@@ -39,8 +42,10 @@ public:
     POINT cursor_position_to_restore;
     bool is_mouseleft_pressed = false;
     uint32_t rotate_start_time = 0;
-    uint32_t last_time_context_menu_pressed = 0;
+    // Almost the same as rotate_start_time, but counted in a different thread, so whatever.
+    uint32_t last_time_rotate_pressed = 0;
     uint32_t last_time_cancel_action_pressed = 0;
+    uint32_t last_time_cancel_action_pressed2 = 0;
     bool player_can_input_movement = false;
     bool player_could_input_movement_last_frame = false;
     ToggleRequest mouselook_request = ToggleRequest::NONE;
@@ -63,6 +68,12 @@ public:
     void EnableInteractMoveBlocker(bool enabled);
     void SetCurrentlyInteractMoving(bool in_value);
     bool IsCurrentlyInteractMoving();
+
+    // camera
+    int dx = 0;
+    int dy = 0;
+    float pitch = 0.6f;
+    bool should_reload_camera_settings = true;
 
 private:
     //core

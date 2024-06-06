@@ -42,6 +42,15 @@ void Settings::Load() noexcept
         config.Bind(rotate_threshold, 200);
 
         config.Bind(block_interact_move, FALSE);
+
+        config.Bind(unlock_pitch, TRUE);
+        config.Bind<-10.0, 10.0>(pitch_speed, 1.0);
+        config.Bind<0, 10.0>(vertical_offset, 2);
+        config.Bind<-10.0, 10.0>(min_zoom, 2.2);
+        config.Bind<-10.0, 100.0>(max_zoom, 20);
+        config.Bind<0.0, 10.0>(zoom_speed, 4.0);
+        config.Bind<0.0, 10.0>(camera_movespeed, 1.25);
+        config.Bind<0.0, 90.0>(fov, 45.0);
     }
 
     config.Load();
@@ -65,6 +74,8 @@ void Settings::Load() noexcept
         InputconfigPatcher::Patch();
     }
     state->EnableInteractMoveBlocker(state->IsCharacterMovementMode());
+
+    state->should_reload_camera_settings = true;
 
     first_time_loaded = false;
     INFO("Config loaded successfully."sv)

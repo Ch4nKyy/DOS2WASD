@@ -34,7 +34,7 @@ struct CallSpecificCommandFunctionPre2Epilog : Xbyak::CodeGenerator
 bool CallSpecificCommandFunctionPre2Cavehook::Prepare()
 {
     std::array<uintptr_t, 1> address_array = { AsAddress(
-        dku::Hook::Assembly::search_pattern<"FF 50 68 48 8B C3">()) };
+        dku::Hook::Assembly::search_pattern<"FF 50 70 48 8B C3 48 8B 5C 24 30">()) };
     addresses = address_array;
 
     all_found = true;
@@ -73,7 +73,7 @@ void CallSpecificCommandFunctionPre2Cavehook::Enable()
     }
 }
 
-void CallSpecificCommandFunctionPre2Cavehook::Func(int64_t* self, WORD* a2, int* command_struct)
+void CallSpecificCommandFunctionPre2Cavehook::Func(int64_t self, int16_t a2, int* command_struct)
 {
     auto* state = State::GetSingleton();
     auto* settings = Settings::GetSingleton();
@@ -81,9 +81,9 @@ void CallSpecificCommandFunctionPre2Cavehook::Func(int64_t* self, WORD* a2, int*
     InputFaker::game_input_manager = *(int64_t**)self;
 
     int command_id = *(int*)command_struct;
-    bool is_key_down = *(reinterpret_cast<bool*>(command_struct) + 28);
+    bool is_key_down = *(reinterpret_cast<bool*>(command_struct) + 32);
     if (state->IsCurrentlyInteractMoving() && state->IsCharacterMovementMode() &&
-        command_id >= CharacterMoveForward && command_id <= CharacterMoveRight && is_key_down)
+        command_id >= CharacterMoveForward && command_id <= CharacterMoveRight)
     {
         // Calling InputFaker::SendCommand here crashes since CallSpecificCommandFunctionPre2 is a
         // virtual call and I don't fully understand why.

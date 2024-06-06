@@ -4,8 +4,10 @@
 
 bool AfterChangingKeybindInMenuHook::Prepare()
 {
-    std::array<uintptr_t, 1> address_array = { AsAddress(dku::Hook::Assembly::search_pattern<
-        "E8 ?? ?? ?? ?? 40 ?? ?? 48 ?? ?? 48 ?? ?? 74 ?? 4C">()) };
+    std::array<uintptr_t, 2> address_array = {
+        AsAddress(dku::Hook::Assembly::search_pattern<"E8 48 F5 FF FF E9 F3">()),
+        AsAddress(dku::Hook::Assembly::search_pattern<"E8 27 F5 FF FF 48 B9">())
+    };
     addresses = address_array;
 
     all_found = true;

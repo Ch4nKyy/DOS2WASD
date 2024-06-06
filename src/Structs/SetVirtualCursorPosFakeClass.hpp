@@ -33,10 +33,5 @@ class SetVirtualCursorPosFakeClass
         virtual void VFunction200();
         virtual void VFunction208();
         virtual void VFunction216();
-        virtual void VFunction224();
-        virtual void VFunction232();
-        virtual void VFunction240();
-        virtual void VFunction248();
-        virtual void VFunction256();
         virtual QWORD* SetVirtualCursorPos(char* a2, int* a3);
 };

@@ -1,11 +1,12 @@
-# BG3 WASD Movement
+# DOS2 WASD Movement
 
-A mod for Baldur's Gate 3 that allows direct character movement with WASD keys (or others).
+A mod for Divinity: Original Sin 2 that allows direct character movement with hotkeys and improves the camera.
 
-Find it on [Nexusmods](https://www.nexusmods.com/baldursgate3/mods/781).
+Find it on [Nexusmods](https://www.nexusmods.com/divinityoriginalsin2definitiveedition/mods/460).
 
-`Instructions were moved to Nexusmods, because it seems more common!`
-
+This is a port of my mod [BG3 WASD Movement](https://github.com/Ch4nKyy/BG3WASD).  
+BG3 WASD will be better maintained and documented!  
+For technical differences, see doc/guide.md.
 
 ## Building
 
@@ -19,9 +20,8 @@ Find it on [Nexusmods](https://www.nexusmods.com/baldursgate3/mods/781).
   vcpkg
 - [Visual Studio Community 2022](https://visualstudio.microsoft.com/)
   - Desktop development with C++
-- [Baldur's Gate 3 Steam Distribution](https://store.steampowered.com/app/1086940/Baldurs_Gate_3/)
-  - Add the environment variable `BG3PATH` with the value as path to game install folder
-  - Add `BG3PATH2` if you have a secondary installation (E.g. one for Steam, one for GOG)
+- [Divinity: Original Sin 2 Steam Distribution](https://store.steampowered.com/app/435150/Divinity_Original_Sin_2__Definitive_Edition/)
+  - Add the environment variable `DOS2PATH` with the value as path to game install folder
 - [7zip](https://www.7-zip.org/)
   - Install to default dir
   
@@ -34,8 +34,8 @@ Find it on [Nexusmods](https://www.nexusmods.com/baldursgate3/mods/781).
 ### Building
 
 ```
-git clone https://github.com/Ch4nKyy/BG3WASD.git
-cd BG3WASD
+git clone https://github.com/Ch4nKyy/DOS2WASD.git
+cd DOS2WASD
 git submodule init
 git submodule update --remote
 .\build-release.ps1
@@ -47,4 +47,4 @@ If you want to generate a Visual Studio solution, run the following command:
 .\generate-sln.ps1
 ```
 
-> ***Note:*** *This will generate a `BG3WASD.sln` file in the **build** directory.*
+> ***Note:*** *This will generate a `DOS2WASD.sln` file in the **build** directory.*

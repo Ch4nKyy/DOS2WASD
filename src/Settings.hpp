@@ -35,11 +35,20 @@ public:
 
     Boolean block_interact_move{ "BlockInteractMove", "InteractMoveBlocker" };
 
+    Boolean unlock_pitch{ "UnlockPitch", "Camera" };
+    Double pitch_speed{ "PitchSpeed", "Camera" };
+    Double vertical_offset{ "VerticalOffset", "Camera" };
+    Double min_zoom{ "MinZoom", "Camera" };
+    Double max_zoom{ "MaxZoom", "Camera" };
+    Double zoom_speed{ "ZoomSpeed", "Camera" };
+    Double camera_movespeed{ "CameraMovespeed", "Camera" };
+    Double fov{ "FieldOfView", "Camera" };
+
     void Load() noexcept;
     std::vector<std::string> GetBoundKeycombos(std::string setting);
 
 private:
-    TomlConfig config = COMPILE_PROXY("NativeMods/BG3WASD.toml"sv);
+    TomlConfig config = COMPILE_PROXY("NativeMods/DOS2WASD.toml"sv);
     bool first_time_loaded = true;
 
     void InitState();
