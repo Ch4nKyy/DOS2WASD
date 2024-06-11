@@ -4,8 +4,8 @@
 
 bool AfterInitialLoadInputConfigHook::Prepare()
 {
-    std::array<uintptr_t, 1> address_array = { AsAddress(dku::Hook::Assembly::search_pattern<
-        "E8 ?? ?? ?? ?? ?? ?? ?? 44 ?? ?? 41 ?? ?? ?? 48 ?? ?? 48 ?? ?? FF">()) };
+    std::array<uintptr_t, 1> address_array = { AsAddress(
+        dku::Hook::Assembly::search_pattern<"E8 C1 EE FF FF">()) };
     addresses = address_array;
 
     all_found = true;
@@ -40,16 +40,16 @@ void AfterInitialLoadInputConfigHook::Enable()
 
 bool AfterInitialLoadInputConfigHook::IsValid() { return OriginalFunc != nullptr; }
 
-int64_t AfterInitialLoadInputConfigHook::Hook(int64_t* a1, uint16_t a2)
+int64_t AfterInitialLoadInputConfigHook::Hook(QWORD* a1)
 {
-    auto ret = CallOriginal(a1, a2);
+    auto ret = CallOriginal(a1);
 
     InputconfigPatcher::Patch();
 
     return ret;
 }
 
-int64_t AfterInitialLoadInputConfigHook::CallOriginal(int64_t* a1, uint16_t a2)
+int64_t AfterInitialLoadInputConfigHook::CallOriginal(QWORD* a1)
 {
-    return OriginalFunc(a1, a2);
+    return OriginalFunc(a1);
 }

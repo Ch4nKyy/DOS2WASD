@@ -4,8 +4,8 @@
 
 bool DecideMoveUpdaterHook::Prepare()
 {
-    std::array<uintptr_t, 1> address_array = { AsAddress(dku::Hook::Assembly::search_pattern<
-        "E8 ?? ?? ?? ?? 4C ?? ?? ?? ?? ?? ?? 48 ?? ?? ?? 48 ?? ?? ?? ?? 48 ?? ?? ?? ?? 49">()) };
+    std::array<uintptr_t, 1> address_array = { AsAddress(
+        dku::Hook::Assembly::search_pattern<"E8 48 F3 FF FF 48 83 7B">()) };
     addresses = address_array;
 
     all_found = true;

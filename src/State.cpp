@@ -78,6 +78,32 @@ void State::SetCurrentlyInteractMoving(bool in_value)
 
 bool State::IsCurrentlyInteractMoving() { return currently_interact_moving; }
 
+bool State::ContextMenuHasSameKeyAsRotate()
+{
+    for (auto keycombo : context_menu_keys)
+    {
+        auto split = dku::string::split(keycombo, ":"sv);
+        if (dku::string::iequals(split[0], "c"))
+        {
+            continue;
+        }
+        if (dku::string::iequals(split[1], "unknown"))
+        {
+            continue;
+        }
+        if (dku::string::iequals(split[1], "INVALID"))
+        {
+            continue;
+        }
+
+        if (std::find(rotate_keys.begin(), rotate_keys.end(), keycombo) != rotate_keys.end())
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 void State::SetMovementModeToggled(bool in_value)
 {
     movement_mode_toggled = in_value;
@@ -102,7 +128,8 @@ void State::UpdateMovementMode()
     if (is_character_movement)
     {
         order_force_stop = true;
-        frames_to_hold_forward_to_center_camera = 10;
+        // set it to double the value as in BG3WASD, because it is decreased twice per frame
+        frames_to_hold_forward_to_center_camera = 20;
     }
 
     EnableInteractMoveBlocker(is_character_movement);

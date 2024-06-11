@@ -8,7 +8,7 @@
 bool SetVirtualCursorPosHook::Prepare()
 {
     std::array<uintptr_t, 1> address_array = { AsAddress(
-        dku::Hook::Assembly::search_pattern<"FF ?? 08 01 00 00 40 ?? ?? ?? 48">()) };
+        dku::Hook::Assembly::search_pattern<"FF 90 E0 00 00 00 C6 45 10 01">()) };
     addresses = address_array;
 
     all_found = true;
@@ -60,8 +60,7 @@ QWORD* SetVirtualCursorPosHook::OverrideFunc(int64_t* self, char* a2, int* a3)
             Vector2* xy_v = reinterpret_cast<Vector2*>(xy);
             int w = 0;
             int h = -1000000;
-            SDL_GetWindowSize(state->sdl_window, &w,
-                NULL);
+            SDL_GetWindowSize(state->sdl_window, &w, NULL);
             // Centering x is not necessary, but may be useful at some point.
             xy_v->x = w / 2;
             xy_v->y = h;

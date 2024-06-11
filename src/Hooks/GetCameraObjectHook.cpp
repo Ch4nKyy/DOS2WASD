@@ -1,12 +1,12 @@
 #include "GetCameraObjectHook.hpp"
-#include "../Addresses/IsInControllerMode.hpp"
+#include "../InputFaker.hpp"
 #include "../Settings.hpp"
 #include "../State.hpp"
 
 bool GetCameraObjectHook::Prepare()
 {
-    std::array<uintptr_t, 1> address_array = { AsAddress(dku::Hook::Assembly::search_pattern<
-        "E8 ?? ?? ?? ?? 48 85 C0 74 ?? F3 0F 11 70 ?? 0F ?? ?? ?? ?? 48">()) };
+    std::array<uintptr_t, 1> address_array = { AsAddress(
+        dku::Hook::Assembly::search_pattern<"E8 F7 A7 FF FF">()) };
     addresses = address_array;
 
     all_found = true;
@@ -39,33 +39,20 @@ void GetCameraObjectHook::Enable()
     }
 }
 
-int64_t GetCameraObjectHook::OverrideFunc(int64_t a1)
+int64_t GetCameraObjectHook::OverrideFunc(int64_t manager, int64_t* in_out)
 {
-    auto* settings = Settings::GetSingleton();
     auto* state = State::GetSingleton();
+    auto* settings = Settings::GetSingleton();
 
-    int64_t camera_object_ptr = OriginalFunc(a1);
+    *(int32_t*)(manager + 1196) = 1;
 
-    if (IsInControllerMode::Read())
+    if (manager && state->IsCharacterMovementMode())
     {
-        return camera_object_ptr;
+        *(float*)(manager + 1092) = 0.0f;
+        *(float*)(manager + 1096) = 0.0f;
     }
 
-    if (state->IsCharacterMovementMode())
-    {
-        *(float*)(camera_object_ptr + 148) = 0.0f;  // x input
-        *(float*)(camera_object_ptr + 152) = 0.0f;  // y input
-        *(char*)(camera_object_ptr + 324) = 0;      // should move
-    }
-
-    // TODO character_leftright_is_rotate
-    // if (*settings->character_leftright_is_rotate)
-    // {
-    //     *(char*)(camera_object_ptr + 497) = 0;      // is left/right rotating
-    //     *(float*)(camera_object_ptr + 160) = 0.0f;  // left/right rotation
-    // }
-
-    bool new_combat_state = (*reinterpret_cast<bool*>(camera_object_ptr + 168) & 1) != 0;
+    bool new_combat_state = (*reinterpret_cast<bool*>(manager + 1112) & 1) != 0;
     if (!state->combat_state_initiliazed || new_combat_state != state->old_combat_state)
     {
         if (*settings->enable_auto_toggling_movement_mode)
@@ -81,5 +68,19 @@ int64_t GetCameraObjectHook::OverrideFunc(int64_t a1)
         state->last_time_combat_state_changed = SDL_GetTicks();
     }
 
-    return camera_object_ptr;
+    if (state->should_reload_camera_settings)
+    {
+        int64_t settings_base = *(int64_t*)(dku::Hook::Module::get().base() + 0x2959898);
+        *(float*)(settings_base + 0xC40) = *(settings->min_zoom);
+        *(float*)(settings_base + 0xC44) = *(settings->max_zoom);
+        *(float*)(settings_base + 0xC48) = *(settings->max_zoom);
+        *(float*)(settings_base + 0xC4C) = *(settings->min_zoom);
+        *(float*)(settings_base + 0xC64) = *(settings->vertical_offset);
+        *(float*)(settings_base + 0xC6C) = *(settings->camera_movespeed);
+        *(float*)(settings_base + 0xC74) = *(settings->fov);
+
+        state->should_reload_camera_settings = false;
+    }
+
+    return OriginalFunc(manager, in_out);
 }

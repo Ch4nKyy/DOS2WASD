@@ -8,7 +8,7 @@
 bool ConcatInputconfigPathHook::Prepare()
 {
     std::array<uintptr_t, 1> address_array = { AsAddress(
-        dku::Hook::Assembly::search_pattern<"E8 ?? ?? ?? ?? 90 45 ?? ?? 45 ?? ?? 48 ?? ?? 49">()) };
+        dku::Hook::Assembly::search_pattern<"E8 1B 09 D5 FE">()) };
     addresses = address_array;
 
     all_found = true;
@@ -41,18 +41,18 @@ void ConcatInputconfigPathHook::Enable()
     }
 }
 
-QWORD* ConcatInputconfigPathHook::OverrideFunc(QWORD* Src, uint32_t* a2, void* a3)
+QWORD* ConcatInputconfigPathHook::OverrideFunc(QWORD* Src, char* a2, size_t Size)
 {
     auto* state = State::GetSingleton();
     auto* settings = Settings::GetSingleton();
 
-    QWORD* return_value = OriginalFunc(Src, a2, a3);
+    QWORD* return_value = OriginalFunc(Src, a2, Size);
 
     if (state->inputconfig_path == L"")
     {
         char* inputconfig_path_char = *(char**)return_value;
         std::string inputconfig_path_string{ inputconfig_path_char };
-        if (dku::string::icontains(inputconfig_path_string, "3/PlayerProfiles/"))
+        if (dku::string::icontains(inputconfig_path_string, "Edition/PlayerProfiles/"))
         {
             std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
             std::wstring inputconfig_path_wstring = converter.from_bytes(inputconfig_path_string);

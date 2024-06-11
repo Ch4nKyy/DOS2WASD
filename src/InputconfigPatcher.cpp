@@ -21,9 +21,8 @@ void InputconfigPatcher::Patch()
         FATAL(
             "Inputconfig could not be patched!\n"
             "This can often be fixed by renaming or deleting "
-            "C:/Users/xxxxx/AppData/Local/Larian Studios/Baldur's Gate "
-            "3/PlayerProfiles/Public/inputconfig_p1.json. You can find this folder by pressing "
-            "Win+R and typing %localappdata%.");
+            "C:/Users/xxxxx/Documents/Larian Studios/Divinity Original Sin 2 Definitive Edition"
+            "/PlayerProfiles/xxxxx/inputconfig_p1.json.");
     }
 }
 
@@ -54,17 +53,14 @@ void InputconfigPatcher::ReadAndWriteInputconfig()
     data = UpdateData(data, "CharacterMoveRight", "CameraRight",
         { "c:leftstick_xpos", "key:d", "key:right" });
 
-    data = FixPingCommand(data);
-
     std::ofstream output_stream(config_path_absolute);
     if (output_stream.fail())
     {
         FATAL(
             "Inputconfig could not be patched!\n"
             "This can often be fixed by renaming or deleting "
-            "C:/Users/xxxxx/AppData/Local/Larian Studios/Baldur's Gate "
-            "3/PlayerProfiles/Public/inputconfig_p1.json. You can find this folder by pressing "
-            "Win+R and typing %localappdata%");
+            "C:/Users/xxxxx/Documents/Larian Studios/Divinity Original Sin 2 Definitive Edition"
+            "/PlayerProfiles/xxxxx/inputconfig_p1.json.");
     }
     output_stream << std::setw(4) << data << std::endl;
 
@@ -113,10 +109,11 @@ json InputconfigPatcher::UpdateData(json data, std::string character_command,
     std::string camera_command, json camera_default_keys)
 {
     auto keys_to_bind = camera_default_keys;
-    if (data.contains(camera_command))
+    if (data.contains(character_command))
     {
-        keys_to_bind = data[camera_command];
+        keys_to_bind = data[character_command];
         // Camera and Character input have flipped y axis.
+        // I think in BG3 they are flipped the other way around.
         for (json::iterator it = keys_to_bind.begin(); it != keys_to_bind.end(); ++it)
         {
             if (*it == "c:leftstick_yneg")
@@ -148,45 +145,6 @@ json InputconfigPatcher::UpdateData(json data, std::string character_command,
     return data;
 }
 
-json InputconfigPatcher::FixPingCommand(json data)
-{
-    if (!data.contains("CameraToggleMouseRotate"))
-    {
-        return data;
-    }
-
-    bool rightclick_is_bound_to_rotate = false;
-    for (json::iterator it = data["CameraToggleMouseRotate"].begin();
-         it != data["CameraToggleMouseRotate"].end(); ++it)
-    {
-        if (*it == "mouse:right")
-        {
-            rightclick_is_bound_to_rotate = true;
-        }
-    }
-    if (!rightclick_is_bound_to_rotate)
-    {
-        return data;
-    }
-
-    json ping_hotkeys = { "alt+mouse:right" };  // Games default if not changed in the json file.
-    if (data.contains("Ping"))
-    {
-        ping_hotkeys = data["Ping"];
-    }
-
-    for (json::iterator it = ping_hotkeys.begin(); it != ping_hotkeys.end(); ++it)
-    {
-        if (dku::string::icontains(*it, "mouse:right"))
-        {
-            *it = "key:unknown";
-        }
-    }
-
-    data["Ping"] = ping_hotkeys;
-    return data;
-}
-
 void InputconfigPatcher::UpdateVkCombosOfCommandMap(json data, std::vector<std::string>& commands)
 {
     auto* state = State::GetSingleton();
@@ -194,6 +152,8 @@ void InputconfigPatcher::UpdateVkCombosOfCommandMap(json data, std::vector<std::
         GetKeycombosOfCommandFromInputconfig(data, "CharacterMoveForward", commands, { "" });
     state->character_backward_keys =
         GetKeycombosOfCommandFromInputconfig(data, "CharacterMoveBackward", commands, { "" });
+    state->context_menu_keys =
+        GetKeycombosOfCommandFromInputconfig(data, "ContextMenu", commands, { "mouse:right" });
     state->rotate_keys = GetKeycombosOfCommandFromInputconfig(data, "CameraToggleMouseRotate",
         commands, { "mouse:middle" });
     state->rotate_keys_include_lmb = std::find(state->rotate_keys.begin(), state->rotate_keys.end(),
@@ -244,7 +204,7 @@ void InputconfigPatcher::ValidateKeys(json data)
         {
             error.append(
                 "The following keys that are binded to ModHotkeys could not be mapped. Please "
-                "change them in the BG3WASD.toml config file:\n");
+                "change them in the DOS2WASD.toml config file:\n");
             for (auto key : mod_hotkeys_not_found_keycombos)
             {
                 error.append(key + "\n");

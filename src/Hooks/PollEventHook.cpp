@@ -7,7 +7,7 @@
 bool PollEventHook::Prepare()
 {
     std::array<uintptr_t, 1> address_array = { AsAddress(dku::Hook::Assembly::search_pattern<
-        "FF ?? ?? ?? ?? ?? 85 ?? 0F ?? ?? ?? ?? ?? 8B ?? ?? ?? 49 ?? ?? ?? 0F">()) };
+        "FF 15 D9 A5 C3 00">()) };
     addresses = address_array;
 
     all_found = true;
@@ -51,7 +51,7 @@ void PollEventHook::HideVirtualCursor(bool in_value)
 }
 
 // Called in MainThread, every frame
-int64_t PollEventHook::OverrideFunc(int64_t a1)
+int64_t PollEventHook::OverrideFunc()
 {
     auto* state = State::GetSingleton();
     auto* settings = Settings::GetSingleton();
@@ -85,5 +85,5 @@ int64_t PollEventHook::OverrideFunc(int64_t a1)
         state->cursor_hidden_last_frame = state->ShouldHideCursor();
     }
 
-    return OriginalFunc(a1);
+    return OriginalFunc();
 }

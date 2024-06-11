@@ -13,8 +13,8 @@ include(GNUInstallDirs)
 
 # info
 project(
-    BG3WASD
-    VERSION 1.9.4
+    DOS2WASD
+    VERSION 1.0.0
     LANGUAGES CXX
 )
 
@@ -173,8 +173,5 @@ add_custom_command(
     POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy
     ${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/${PROJECT_NAME}.dll
-    "$ENV{BG3PATH}/bin/NativeMods/${PROJECT_NAME}.dll"
-    COMMAND ${CMAKE_COMMAND} -E copy
-    ${CMAKE_CURRENT_BINARY_DIR}/$<CONFIG>/${PROJECT_NAME}.dll
-    "$ENV{BG3PATH2}/bin/NativeMods/${PROJECT_NAME}.dll"
+    "$ENV{DOS2PATH}/DefEd/bin/NativeMods/${PROJECT_NAME}.dll"
 )

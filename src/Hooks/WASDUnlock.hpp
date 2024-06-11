@@ -9,5 +9,4 @@ public:
 private:
     static void* Search(uintptr_t a_base);
     static inline uintptr_t address1;
-    static inline uintptr_t address2;
 };

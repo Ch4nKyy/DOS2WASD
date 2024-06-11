@@ -3,15 +3,13 @@
 #include "../Settings.hpp"
 #include "../State.hpp"
 #include "GameCommand.hpp"
-#include "SetVirtualCursorPosHook.hpp"
 
 using enum GameCommand;
 
 bool CheckCommandInputsHook::Prepare()
 {
-    std::array<uintptr_t, 1> address_array = { AsAddress(dku::Hook::Assembly::search_pattern<
-        "E8 ?? ?? ?? ?? 48 ?? ?? ?? 48 ?? ?? FF ?? ?? ?? ?? ?? 48 ?? ?? ?? ?? ?? ?? 48 ?? ?? 48 ?? "
-        "?? ?? ?? ?? ?? FF">()) };
+    std::array<uintptr_t, 1> address_array = { AsAddress(
+        dku::Hook::Assembly::search_pattern<"E8 62 B3 F0 FE">()) };
     addresses = address_array;
 
     all_found = true;
@@ -45,7 +43,7 @@ void CheckCommandInputsHook::Enable()
 }
 
 // Called in GameThread, every frame
-char CheckCommandInputsHook::OverrideFunc(int64_t a1, float* a2)
+int64_t CheckCommandInputsHook::OverrideFunc(int64_t* a1, int64_t a2)
 {
     auto* state = State::GetSingleton();
     auto* settings = Settings::GetSingleton();

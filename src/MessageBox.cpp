@@ -7,5 +7,5 @@ void MessageBox::Show(std::string error)
 
 void MessageBox::Show_Impl(std::string error)
 {
-    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, "BG3WASD", error.c_str(), NULL);
+    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, "DOS2WASD", error.c_str(), NULL);
 }

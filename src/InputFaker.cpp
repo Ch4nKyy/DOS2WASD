@@ -101,45 +101,38 @@ void InputFaker::SendMouseMotion(int xrel, int yrel)
 
 int InputFaker::SendCommand(GameCommand command_id, bool down)
 {
-    if (!game_input_manager)
-    {
-        return 0;
-    }
-
     constexpr auto size = 64;
     unsigned char command_struct[size] = { 0 };
     *(int16_t*)(command_struct + 0) = static_cast<int>(command_id);
 
-    // The following data works for ActionCancel. Maybe ONLY for ActionCancel.
-    if (down)
+    if (command_id == ActionCancel)
     {
-        *(int8_t*)(command_struct + 4) = 0x01;
-        *(int8_t*)(command_struct + 7) = 0x01;
-        *(int16_t*)(command_struct + 22) = 0x3F80;
-        *(int16_t*)(command_struct + 26) = 0x3F80;
-        *(int8_t*)(command_struct + 28) = 0x01; // down flag
-        *(int32_t*)(command_struct + 32) = 0x0;
-        *(int8_t*)(command_struct + 36) = 0x01;
-        *(int32_t*)(command_struct + 37) = 0x7D3F0000;
-    }
-    else
-    {
-        *(int8_t*)(command_struct + 4) = 0x01;
-        *(int8_t*)(command_struct + 7) = 0x02;
-        *(int16_t*)(command_struct + 10) = 0x3F80;
-        *(int16_t*)(command_struct + 14) = 0x3F80;
-        *(int8_t*)(command_struct + 16) = 0x01;
-        *(int32_t*)(command_struct + 29) = 0x00000000;
-        *(int8_t*)(command_struct + 36) = 0x01;
-        *(int32_t*)(command_struct + 37) = 0x7D3F0000;
-        *(int8_t*)(command_struct + 52) = 0xC0;
+        if (down)
+        {
+            *(int8_t*)(command_struct + 8) = 0x01;
+            *(int32_t*)(command_struct + 20) = 0xEC6DC800;
+            *(int32_t*)(command_struct + 24) = 0x3F800000;
+            *(int32_t*)(command_struct + 28) = 0x3F800000;
+            *(int8_t*)(command_struct + 32) = 0x01;  // down flag
+        }
+        else
+        {
+            *(int32_t*)(command_struct + 8) = 0x3F800001;
+            *(int32_t*)(command_struct + 12) = 0x3F800000;
+            *(int32_t*)(command_struct + 16) = 0x3F800000;
+            *(int8_t*)(command_struct + 20) = 0x01;
+        }
+        if (!game_input_manager)
+        {
+            return 0;
+        }
     }
 
     WORD return_status = 0;
 
     GameInputManager* game_input_manager_cast =
         reinterpret_cast<GameInputManager*>(&game_input_manager);
-    game_input_manager_cast->SendCommand(&return_status, (int*)command_struct);
+    game_input_manager_cast->CallSpecificCommandFunctionPre2(&return_status, (int*)command_struct);
 
     return return_status;
 }

@@ -1,7 +1,5 @@
 #pragma once
 
-typedef int64_t QWORD;
-
 using namespace DKUtil::Alias;
 
 // GameThread
@@ -14,7 +12,7 @@ class CallSpecificCommandFunctionPre2Cavehook
 public:
     static void Enable();
     static bool Prepare();
-    static void Func(int64_t* self, WORD* a2, int* command_struct);
+    static void Func(int64_t self, int16_t a2, int* command_struct);
 
 private:
     static inline std::array<uintptr_t, 1> addresses;
