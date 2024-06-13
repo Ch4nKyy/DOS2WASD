@@ -1,3 +1,4 @@
+#include "Addresses/IsInControllerMode.hpp"
 #include "Addresses/LoadInputConfig.hpp"
 #include "Hooks/AfterChangingKeybindInMenuHook.hpp"
 #include "Hooks/AfterInitialLoadInputConfigHook.hpp"
@@ -78,9 +79,11 @@ BOOL APIENTRY DllMain(HMODULE a_hModule, DWORD a_ul_reason_for_call, LPVOID a_lp
         bool fix_walking1 = FixWalking1::Prepare();
         bool fix_walking2 = FixWalking2::Prepare();
         bool fix_warpmouse = FixWarpMouseInWindowCrash::Prepare();
+        bool is_controller = IsInControllerMode::Prepare();
         if (wasd_unlock && load_input_config && after_initial_load_inputconfig_hook &&
             concat_inputconfig_path_hook && movement_input && after_changing_keybind_in_menu_hook &&
-            cam_obj && center_cam_always_jumps && fix_walking1 && fix_walking2 && fix_warpmouse)
+            cam_obj && center_cam_always_jumps && fix_walking1 && fix_walking2 && fix_warpmouse &&
+            is_controller)
         {
             InputHook::Enable(a_hModule);  // throws on error
             WASDUnlock::Enable();

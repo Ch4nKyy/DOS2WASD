@@ -1,4 +1,5 @@
 #include "CallSpecificCommandFunctionPre2Cavehook.hpp"
+#include "../Addresses/IsInControllerMode.hpp"
 #include "../GameCommand.hpp"
 #include "../InputFaker.hpp"
 #include "../Patches/BlockCancelActionStoppingMovementPatch.hpp"
@@ -75,6 +76,11 @@ void CallSpecificCommandFunctionPre2Cavehook::Enable()
 
 void CallSpecificCommandFunctionPre2Cavehook::Func(int64_t self, int16_t a2, int* command_struct)
 {
+    if (IsInControllerMode::Read())
+    {
+        return;
+    }
+
     auto* state = State::GetSingleton();
     auto* settings = Settings::GetSingleton();
 

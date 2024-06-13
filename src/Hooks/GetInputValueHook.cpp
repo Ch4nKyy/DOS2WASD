@@ -1,4 +1,5 @@
 #include "GetInputValueHook.hpp"
+#include "../Addresses/IsInControllerMode.hpp"
 #include "../GameCommand.hpp"
 #include "../Settings.hpp"
 #include "../State.hpp"
@@ -59,6 +60,11 @@ int64_t GetInputValueHook::OverrideFunc(int64_t player_input_controller_ptr,
 {
     in_out_value_vec_ptr =
         OriginalFunc(player_input_controller_ptr, in_out_value_vec_ptr, command_id_ptr, a4);
+
+    if (IsInControllerMode::Read())
+    {
+        return in_out_value_vec_ptr;
+    }
 
     Vector2* xyz_v = reinterpret_cast<Vector2*>(in_out_value_vec_ptr);
 

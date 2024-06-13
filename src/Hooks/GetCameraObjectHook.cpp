@@ -1,4 +1,5 @@
 #include "GetCameraObjectHook.hpp"
+#include "../Addresses/IsInControllerMode.hpp"
 #include "../InputFaker.hpp"
 #include "../Settings.hpp"
 #include "../State.hpp"
@@ -44,7 +45,30 @@ int64_t GetCameraObjectHook::OverrideFunc(int64_t manager, int64_t* in_out)
     auto* state = State::GetSingleton();
     auto* settings = Settings::GetSingleton();
 
-    *(int32_t*)(manager + 1196) = 1;
+    if (state->should_reload_camera_settings)
+    {
+        int64_t settings_base = *(int64_t*)(dku::Hook::Module::get().base() + 0x2959898);
+        *(float*)(settings_base + 0xC40) = *(settings->min_zoom);
+        *(float*)(settings_base + 0xC44) = *(settings->max_zoom);
+        *(float*)(settings_base + 0xC48) = *(settings->max_zoom);
+        *(float*)(settings_base + 0xC4C) = *(settings->min_zoom);
+        *(float*)(settings_base + 0xC64) = *(settings->vertical_offset);
+        *(float*)(settings_base + 0xC6C) = *(settings->camera_movespeed);
+        *(float*)(settings_base + 0xC74) = *(settings->fov);
+        *(float*)(settings_base + 0xCCC) = *(settings->min_pitch);
+        *(float*)(settings_base + 0xCE4) = *(settings->min_pitch);  // combat
+        *(float*)(settings_base + 0xCC0) = *(settings->max_pitch);
+        *(float*)(settings_base + 0xCD8) = *(settings->max_pitch);  // combat
+
+        state->should_reload_camera_settings = false;
+    }
+
+    if (IsInControllerMode::Read())
+    {
+        return OriginalFunc(manager, in_out);
+    }
+
+    *(int32_t*)(manager + 1196) = 1;  // follow flag
 
     if (manager && state->IsCharacterMovementMode())
     {
@@ -66,24 +90,6 @@ int64_t GetCameraObjectHook::OverrideFunc(int64_t manager, int64_t* in_out)
         state->old_combat_state = new_combat_state;
         state->combat_state_initiliazed = true;
         state->last_time_combat_state_changed = SDL_GetTicks();
-    }
-
-    if (state->should_reload_camera_settings)
-    {
-        int64_t settings_base = *(int64_t*)(dku::Hook::Module::get().base() + 0x2959898);
-        *(float*)(settings_base + 0xC40) = *(settings->min_zoom);
-        *(float*)(settings_base + 0xC44) = *(settings->max_zoom);
-        *(float*)(settings_base + 0xC48) = *(settings->max_zoom);
-        *(float*)(settings_base + 0xC4C) = *(settings->min_zoom);
-        *(float*)(settings_base + 0xC64) = *(settings->vertical_offset);
-        *(float*)(settings_base + 0xC6C) = *(settings->camera_movespeed);
-        *(float*)(settings_base + 0xC74) = *(settings->fov);
-        *(float*)(settings_base + 0xCCC) = *(settings->min_pitch);
-        *(float*)(settings_base + 0xCE4) = *(settings->min_pitch);  // combat
-        *(float*)(settings_base + 0xCC0) = *(settings->max_pitch);
-        *(float*)(settings_base + 0xCD8) = *(settings->max_pitch);  // combat
-
-        state->should_reload_camera_settings = false;
     }
 
     return OriginalFunc(manager, in_out);
