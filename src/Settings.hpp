@@ -43,6 +43,8 @@ public:
     Double zoom_speed{ "ZoomSpeed", "Camera" };
     Double camera_movespeed{ "CameraMovespeed", "Camera" };
     Double fov{ "FieldOfView", "Camera" };
+    Double min_pitch{ "MinPitch", "Camera" };
+    Double max_pitch{ "MaxPitch", "Camera" };
 
     void Load() noexcept;
     std::vector<std::string> GetBoundKeycombos(std::string setting);
