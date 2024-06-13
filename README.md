@@ -41,6 +41,17 @@ git submodule update --remote
 .\build-release.ps1
 ```
 
+### Build SDL
+
+```
+cd to extern
+create a folder named build
+cd to build
+open a console
+cmake ..\SDL2
+cmake --build . --config debug|release
+```
+
 ### Solution Generation (Optional)
 If you want to generate a Visual Studio solution, run the following command:
 ```
