@@ -81,31 +81,43 @@ UnlockPitch = true
 PitchSpeed = 1.0
 # If UnlockPitch is true, this controls the pitch speed.
 # If negative, the pitch axis is inverted.
-# [-10, 10]
+# [-10.0, 10.0]
 
 ZoomSpeed = 4.0
 # Controls the zoom speed, also for the mouse scroll wheel.
-# [0, 10]
+# [0.0, 10.0]
 
 VerticalOffset = 1.2
 # Vertical offset multiplier of the camera. Relevant when you zoom in closely.
-# [0, 2]
+# [0.0, 2.0]
 
 MinZoom = 2.2
 # Minimal zoom distance.
-# [-10, 10]
+# [-10.0, 10.0]
 
 MaxZoom = 20
 # Maximal zoom distance.
-# [-10, 100]
+# [-10.0, 100.0]
 
 CameraMovespeed = 1.25
 # How fast you can move around the camera in Camera Movement Mode or combat.
-# [0, 10]
+# [0.0, 10.0]
 
 FieldOfView = 45
 # Field of view.
 # [0, 90]
+
+MinPitch = -1.0
+# Minimal pitch. Vanilla default is 0.54.
+# Setting it below 0.45 creates visual artifacts, but -1.0 gives most freedom.
+# If you use UnlockPitch = false, don't set it below 0.0.
+# [-1.0, 1.0]
+
+MaxPitch = 1.0
+# Maximal pitch
+# [0, 1.0]
+
+
 
 # List of all available keys:
 

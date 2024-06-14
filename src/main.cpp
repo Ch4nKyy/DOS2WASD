@@ -1,3 +1,4 @@
+#include "Addresses/IsInControllerMode.hpp"
 #include "Addresses/LoadInputConfig.hpp"
 #include "Hooks/AfterChangingKeybindInMenuHook.hpp"
 #include "Hooks/AfterInitialLoadInputConfigHook.hpp"
@@ -27,6 +28,8 @@
 #include "Patches/CenterCameraAlwaysJumps.hpp"
 #include "Patches/FixWalking1.hpp"
 #include "Patches/FixWalking2.hpp"
+#include "Patches/FixWarpMouseInWindowCrash.hpp"
+#include "Patches/FollowOnChararacterChange.hpp"
 #include "Settings.hpp"
 #include "State.hpp"
 #include "VersionInfo.hpp"
@@ -76,9 +79,13 @@ BOOL APIENTRY DllMain(HMODULE a_hModule, DWORD a_ul_reason_for_call, LPVOID a_lp
         bool cam_obj = GetCameraObjectHook::Prepare();
         bool fix_walking1 = FixWalking1::Prepare();
         bool fix_walking2 = FixWalking2::Prepare();
+        bool fix_warpmouse = FixWarpMouseInWindowCrash::Prepare();
+        bool is_controller = IsInControllerMode::Prepare();
+        bool follow_on_change = FollowOnChararacterChange::Prepare();
         if (wasd_unlock && load_input_config && after_initial_load_inputconfig_hook &&
             concat_inputconfig_path_hook && movement_input && after_changing_keybind_in_menu_hook &&
-            cam_obj && center_cam_always_jumps && fix_walking1 && fix_walking2)
+            cam_obj && center_cam_always_jumps && fix_walking1 && fix_walking2 && fix_warpmouse &&
+            is_controller && follow_on_change)
         {
             InputHook::Enable(a_hModule);  // throws on error
             WASDUnlock::Enable();
@@ -93,6 +100,10 @@ BOOL APIENTRY DllMain(HMODULE a_hModule, DWORD a_ul_reason_for_call, LPVOID a_lp
             FixWalking1::Activate();
             FixWalking2::Enable();
             FixWalking2::Activate();
+            FixWarpMouseInWindowCrash::Enable();
+            FixWarpMouseInWindowCrash::Activate();
+            FollowOnChararacterChange::Enable();
+            FollowOnChararacterChange::Activate();
 
             // needed for both improved mouselook AND interact move canceller
             bool check_command_inputs_hook = CheckCommandInputsHook::Prepare();

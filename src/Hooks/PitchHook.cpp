@@ -50,12 +50,14 @@ float* PitchHook::OverrideFunc(int64_t a1, float* a2, float a3)
 
     if (*settings->unlock_pitch)
     {
-        bool is_rotating = *(bool*)(a1 + 1113);
+        bool is_rotating = *(bool*)(a1 + 1113) & 1;
         if (is_rotating)
         {
             state->pitch += (float)state->dy * 0.0025f * *settings->pitch_speed;
             state->dy = 0;
-            state->pitch = std::clamp(state->pitch, -0.85f, 0.85f);
+            float min = *(settings->min_pitch);
+            float max = *(settings->max_pitch);
+            state->pitch = std::clamp(state->pitch, min, max);
         }
         ret[1] = state->pitch;
     }

@@ -1,4 +1,5 @@
 #include "CheckContextMenuOrCancelActionHook.hpp"
+#include "../Addresses/IsInControllerMode.hpp"
 #include "../GameCommand.hpp"
 #include "../Settings.hpp"
 #include "../State.hpp"
@@ -49,6 +50,11 @@ void CheckContextMenuOrCancelActionHook::Enable()
 int64_t CheckContextMenuOrCancelActionHook::OverrideFunc(int64_t a1, int64_t a2,
     int* SomeInputStruct, uint16_t a4, int64_t a5)
 {
+    if (IsInControllerMode::Read())
+    {
+        return OriginalFunc(a1, a2, SomeInputStruct, a4, a5);
+    }
+
     auto* state = State::GetSingleton();
     auto* settings = Settings::GetSingleton();
 
