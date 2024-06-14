@@ -50,7 +50,7 @@ float* PitchHook::OverrideFunc(int64_t a1, float* a2, float a3)
 
     if (*settings->unlock_pitch)
     {
-        bool is_rotating = *(bool*)(a1 + 1113);
+        bool is_rotating = *(bool*)(a1 + 1113) & 1;
         if (is_rotating)
         {
             state->pitch += (float)state->dy * 0.0025f * *settings->pitch_speed;
