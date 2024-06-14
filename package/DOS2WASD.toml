@@ -114,7 +114,7 @@ MinPitch = -1.0
 # [-1.0, 1.0]
 
 MaxPitch = 1.0
-# Maximal pitch
+# Maximal pitch.
 # [0, 1.0]
 
 
