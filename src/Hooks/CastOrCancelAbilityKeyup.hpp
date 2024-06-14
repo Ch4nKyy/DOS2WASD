@@ -2,12 +2,12 @@
 
 using namespace DKUtil::Alias;
 
-class CastOrCancelAbilityKeydownCavehook
+class CastOrCancelAbilityKeyup
 {
 public:
     static void Enable();
     static bool Prepare();
-    static void Func();
+    static int64_t Func();
 
 private:
     static inline std::array<uintptr_t, 1> addresses;

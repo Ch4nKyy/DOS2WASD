@@ -3,8 +3,8 @@
 #include "Hooks/AfterChangingKeybindInMenuHook.hpp"
 #include "Hooks/AfterInitialLoadInputConfigHook.hpp"
 #include "Hooks/CallSpecificCommandFunctionPre2Cavehook.hpp"
-#include "Hooks/CastOrCancelAbilityKeydownCavehook.hpp"
-#include "Hooks/CastOrCancelAbilityKeyupHook.hpp"
+#include "Hooks/CastOrCancelAbilityKeydown.hpp"
+#include "Hooks/CastOrCancelAbilityKeyup.hpp"
 #include "Hooks/CheckCommandInputsHook.hpp"
 #include "Hooks/CheckContextMenuOrCancelActionHook.hpp"
 #include "Hooks/ConcatInputconfigPathHook.hpp"
@@ -113,8 +113,8 @@ BOOL APIENTRY DllMain(HMODULE a_hModule, DWORD a_ul_reason_for_call, LPVOID a_lp
             bool set_cursor_rotate_hook = SetOrResetCursorRotateCavehook::Prepare();
             bool check_context_menu_or_cancel_action_hook =
                 CheckContextMenuOrCancelActionHook::Prepare();
-            bool cast_or_cancel_keyup = CastOrCancelAbilityKeyupHook::Prepare();
-            bool cast_or_cancel_keydown = CastOrCancelAbilityKeydownCavehook::Prepare();
+            bool cast_or_cancel_keyup = CastOrCancelAbilityKeyup::Prepare();
+            bool cast_or_cancel_keydown = CastOrCancelAbilityKeydown::Prepare();
             bool poll_event_hook = PollEventHook::Prepare();
 
             // TODO ToggleMouselook
@@ -128,8 +128,8 @@ BOOL APIENTRY DllMain(HMODULE a_hModule, DWORD a_ul_reason_for_call, LPVOID a_lp
                 SDL_SetWindowGrabHook::Enable();
                 SetOrResetCursorRotateCavehook::Enable();
                 CheckContextMenuOrCancelActionHook::Enable();
-                CastOrCancelAbilityKeyupHook::Enable();
-                CastOrCancelAbilityKeydownCavehook::Enable();
+                CastOrCancelAbilityKeyup::Enable();
+                CastOrCancelAbilityKeydown::Enable();
                 PollEventHook::Enable();
                 CheckCommandInputsHook::Enable();
 
