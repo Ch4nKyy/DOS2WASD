@@ -117,6 +117,10 @@ MaxPitch = 1.0
 # Maximal pitch.
 # [0, 1.0]
 
+ImproveSky = true
+# If true, the draw distance of the skybox/background is increased.
+# This reduces visual glitches, when using unlocked pitch.
+# [true, false]
 
 
 # List of all available keys:

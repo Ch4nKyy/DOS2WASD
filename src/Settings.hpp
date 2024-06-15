@@ -45,6 +45,7 @@ public:
     Double fov{ "FieldOfView", "Camera" };
     Double min_pitch{ "MinPitch", "Camera" };
     Double max_pitch{ "MaxPitch", "Camera" };
+    Boolean improve_sky{ "ImproveSky", "Camera" };
 
     void Load() noexcept;
     std::vector<std::string> GetBoundKeycombos(std::string setting);

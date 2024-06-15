@@ -53,6 +53,7 @@ void Settings::Load() noexcept
         config.Bind<0.0, 90.0>(fov, 45.0);
         config.Bind<-1.0, 1.0>(min_pitch, -1.0);
         config.Bind<0.0, 1.0>(max_pitch, 1.0);
+        config.Bind(improve_sky, TRUE);
     }
 
     config.Load();

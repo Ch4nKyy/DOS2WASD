@@ -2,6 +2,8 @@
 #include "Addresses/LoadInputConfig.hpp"
 #include "Hooks/AfterChangingKeybindInMenuHook.hpp"
 #include "Hooks/AfterInitialLoadInputConfigHook.hpp"
+#include "Hooks/AtmFarPlaneOverride.hpp"
+#include "Hooks/AtmFarPlaneOverride2.hpp"
 #include "Hooks/CallSpecificCommandFunctionPre2Cavehook.hpp"
 #include "Hooks/CastOrCancelAbilityKeydownCavehook.hpp"
 #include "Hooks/CastOrCancelAbilityKeyupHook.hpp"
@@ -171,11 +173,15 @@ BOOL APIENTRY DllMain(HMODULE a_hModule, DWORD a_ul_reason_for_call, LPVOID a_lp
             bool mouse_delta = MouseDeltaCavehook::Prepare();
             bool pitch = PitchHook::Prepare();
             bool zoom = ZoomHook::Prepare();
-            if (mouse_delta && pitch && zoom)
+            bool farplane1 = AtmFarPlaneOverride::Prepare();
+            bool farplane2 = AtmFarPlaneOverride2::Prepare();
+            if (mouse_delta && pitch && zoom && farplane1 && farplane2)
             {
                 MouseDeltaCavehook::Enable();
                 PitchHook::Enable();
                 ZoomHook::Enable();
+                AtmFarPlaneOverride::Enable();
+                AtmFarPlaneOverride2::Enable();
             }
             else
             {
