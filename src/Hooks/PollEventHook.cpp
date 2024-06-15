@@ -6,8 +6,8 @@
 
 bool PollEventHook::Prepare()
 {
-    std::array<uintptr_t, 1> address_array = { AsAddress(dku::Hook::Assembly::search_pattern<
-        "FF 15 D9 A5 C3 00">()) };
+    std::array<uintptr_t, 1> address_array = { AsAddress(
+        dku::Hook::Assembly::search_pattern<"FF 15 ?? ?? C3 00 49 8D 4F">()) };
     addresses = address_array;
 
     all_found = true;

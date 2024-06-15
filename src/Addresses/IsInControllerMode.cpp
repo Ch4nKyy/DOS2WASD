@@ -3,8 +3,8 @@
 
 bool IsInControllerMode::Prepare()
 {
-    uintptr_t address =
-        AsAddress(dku::Hook::Assembly::search_pattern<"80 3D 12 52 42 01 00">());
+    uintptr_t address = AsAddress(dku::Hook::Assembly::search_pattern<
+        "80 3D ?? ?? ?? 01 00 74 0F 80 BA 8D 0B 00 00 00 74 06 F3 0F 10 40 24 C3">());
 
     if (!address)
     {

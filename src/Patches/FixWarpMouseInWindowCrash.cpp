@@ -5,7 +5,7 @@
 bool FixWarpMouseInWindowCrash::Prepare()
 {
     std::array<uintptr_t, 1> address_array = { AsAddress(
-        dku::Hook::Assembly::search_pattern<"FF 15 2E A0 C3 00">()) };
+        dku::Hook::Assembly::search_pattern<"FF 15 2E ?? C3 00 E9">()) };
     addresses = address_array;
 
     all_found = true;

@@ -8,8 +8,8 @@ using enum GameCommand;
 
 bool CheckCommandInputsHook::Prepare()
 {
-    std::array<uintptr_t, 1> address_array = { AsAddress(
-        dku::Hook::Assembly::search_pattern<"E8 62 B3 F0 FE">()) };
+    std::array<uintptr_t, 1> address_array = { AsAddress(dku::Hook::Assembly::search_pattern<
+        "E8 ?? ?? ?? FE 48 8B 03 48 85 C0 74 0B 48 8B D8 EB 36">()) };
     addresses = address_array;
 
     all_found = true;

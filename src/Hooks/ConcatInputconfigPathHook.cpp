@@ -7,8 +7,8 @@
 
 bool ConcatInputconfigPathHook::Prepare()
 {
-    std::array<uintptr_t, 1> address_array = { AsAddress(
-        dku::Hook::Assembly::search_pattern<"E8 1B 09 D5 FE">()) };
+    std::array<uintptr_t, 1> address_array = { AsAddress(dku::Hook::Assembly::search_pattern<
+        "E8 ?? ?? ?? FE 48 8D 4D B0 E8 ?? ?? ?? FF 45 33 C9 48 8D 55 B0 45 33 C0">()) };
     addresses = address_array;
 
     all_found = true;

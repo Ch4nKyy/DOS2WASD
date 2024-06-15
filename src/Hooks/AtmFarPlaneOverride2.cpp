@@ -4,10 +4,11 @@
 
 bool AtmFarPlaneOverride2::Prepare()
 {
-    std::array<uintptr_t, 2> address_array = { AsAddress(
-        dku::Hook::Assembly::search_pattern<"E8 D0 58 C4 FF">()),
-        AsAddress(
-        dku::Hook::Assembly::search_pattern<"E8 45 59 C4 FF">()) };
+    std::array<uintptr_t, 2> address_array = {
+        AsAddress(dku::Hook::Assembly::search_pattern<"E8 ?? ?? ?? FF 01 BB FC">()),
+        AsAddress(dku::Hook::Assembly::search_pattern<
+            "E8 ?? ?? ?? FF 01 7B 10 8B 43 10 3B 43 0C 76 70">())
+    };
     addresses = address_array;
 
     all_found = true;

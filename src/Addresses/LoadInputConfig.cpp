@@ -5,7 +5,7 @@ bool LoadInputConfig::Prepare()
 {
     uintptr_t address = AsAddress(dku::Hook::Assembly::search_pattern<
         "48 89 5C 24 08 48 89 74 24 10 48 89 7C 24 18 4C 89 74 24 20 55 48 8B EC 48 83 EC 70 48 8B "
-        "05 5D 28 1F 01">());
+        "05 ?? ?? ?? 01 48 33 C4 48 89 45 F0 0F">());
 
     if (!address)
     {

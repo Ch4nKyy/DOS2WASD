@@ -1,11 +1,11 @@
+#include "FollowOnChararacterChange.hpp"
 #include "../Settings.hpp"
 #include "../State.hpp"
-#include "FollowOnChararacterChange.hpp"
 
 bool FollowOnChararacterChange::Prepare()
 {
     std::array<uintptr_t, 1> address_array = { AsAddress(
-        dku::Hook::Assembly::search_pattern<"38 05 AB F1 5E 01">()) };
+        dku::Hook::Assembly::search_pattern<"38 05 ?? ?? ?? 01 0F 85">()) };
     addresses = address_array;
 
     all_found = true;

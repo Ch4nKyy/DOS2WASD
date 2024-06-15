@@ -5,7 +5,7 @@
 bool FixWalking1::Prepare()
 {
     std::array<uintptr_t, 1> address_array = { AsAddress(
-        dku::Hook::Assembly::search_pattern<"0F 2F C1 76 0A F3 0F 10 05 8E F2 AD 00 EB 08">()) };
+        dku::Hook::Assembly::search_pattern<"0F 2F C1 76 0A F3 0F 10 05 ?? ?? ?? 00">()) };
     addresses = address_array;
 
     all_found = true;

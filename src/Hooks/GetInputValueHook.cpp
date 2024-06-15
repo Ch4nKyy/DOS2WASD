@@ -10,14 +10,19 @@ using enum GameCommand;
 bool GetInputValueHook::Prepare()
 {
     std::array<uintptr_t, 8> address_array = {
-        AsAddress(dku::Hook::Assembly::search_pattern<"E8 41 5F A5 FF">()),
-        AsAddress(dku::Hook::Assembly::search_pattern<"E8 12 5F A5 FF">()),
-        AsAddress(dku::Hook::Assembly::search_pattern<"E8 D5 5E A5 FF">()),
-        AsAddress(dku::Hook::Assembly::search_pattern<"E8 A6 5E A5 FF">()),
-        AsAddress(dku::Hook::Assembly::search_pattern<"E8 2A 6C A5 FF">()),
-        AsAddress(dku::Hook::Assembly::search_pattern<"E8 F8 6B A5 FF">()),
-        AsAddress(dku::Hook::Assembly::search_pattern<"E8 AA 6B A5 FF">()),
-        AsAddress(dku::Hook::Assembly::search_pattern<"E8 78 6B A5 FF">())
+        AsAddress(
+            dku::Hook::Assembly::search_pattern<"E8 ?? ?? A5 FF EB 05 48 8D 44 24 60 F3 0F 10">()),
+        AsAddress(dku::Hook::Assembly::search_pattern<
+            "E8 ?? ?? A5 FF EB 05 48 8D ?? ?? ?? ?? ?? ?? 00">()),
+        AsAddress(dku::Hook::Assembly::search_pattern<"E8 ?? ?? A5 FF EB 05 48 8D 44 24 70 F3">()),
+        AsAddress(
+            dku::Hook::Assembly::search_pattern<"E8 ?? ?? A5 FF EB 05 48 8D 44 24 60 F3 0F 5C">()),
+        AsAddress(
+            dku::Hook::Assembly::search_pattern<"E8 ?? ?? A5 FF EB 04 48 8D 45 C8 F3 0F 10">()),
+        AsAddress(dku::Hook::Assembly::search_pattern<"E8 ?? 5F A5 FF EB 04 48 8D 45 D4 C7">()),
+        AsAddress(dku::Hook::Assembly::search_pattern<"E8 ?? ?? A5 FF EB 04 48 8D 45 D4 F3">()),
+        AsAddress(
+            dku::Hook::Assembly::search_pattern<"E8 ?? ?? A5 FF EB 04 48 8D 45 C8 F3 0F 5C">())
     };
     addresses = address_array;
 

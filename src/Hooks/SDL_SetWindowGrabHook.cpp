@@ -5,7 +5,8 @@
 bool SDL_SetWindowGrabHook::Prepare()
 {
     std::array<uintptr_t, 1> address_array = { AsAddress(dku::Hook::Assembly::search_pattern<
-        "FF 15 65 82 C3 00">()) };
+        "FF 15 ?? ?? C3 00 48 8B 5C 24 40 48 8B 6C 24 48 48 8B 74 24 50 48 83 C4 30 5F C3 CC CC CC "
+        "CC CC CC CC CC 48">()) };
     addresses = address_array;
 
     all_found = true;

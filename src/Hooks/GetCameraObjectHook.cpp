@@ -1,5 +1,6 @@
 #include "GetCameraObjectHook.hpp"
 #include "../Addresses/IsInControllerMode.hpp"
+#include "../Addresses/SettingsPtr.hpp"
 #include "../InputFaker.hpp"
 #include "../Settings.hpp"
 #include "../State.hpp"
@@ -47,7 +48,7 @@ int64_t GetCameraObjectHook::OverrideFunc(int64_t manager, int64_t* in_out)
 
     if (state->should_reload_camera_settings)
     {
-        int64_t settings_base = *(int64_t*)(dku::Hook::Module::get().base() + 0x2959898);
+        int64_t settings_base = SettingsPtr::Read();
         *(float*)(settings_base + 0xC40) = *(settings->min_zoom);
         *(float*)(settings_base + 0xC44) = *(settings->max_zoom);
         *(float*)(settings_base + 0xC48) = *(settings->max_zoom);
