@@ -83,21 +83,26 @@ PitchSpeed = 1.0
 # If negative, the pitch axis is inverted.
 # [-10.0, 10.0]
 
-ZoomSpeed = 4.0
+ZoomSpeed = 1.0
 # Controls the zoom speed, also for the mouse scroll wheel.
+# For most people, 1.0 should be fine.
+# If you play with extremly high FPS, like 500 or so, you might want to increase it to 4.0 or so,
+# because the zoom speed effectively decreases with higher FPS.
 # [0.0, 10.0]
 
-VerticalOffset = 1.2
+VerticalOffset = 1.0
 # Vertical offset multiplier of the camera. Relevant when you zoom in closely.
+# Personal preference. If you mainly play lizards, you might increase it to 1.2 or so.
 # [0.0, 2.0]
 
-MinZoom = 2.2
+MinZoom = 2.0
 # Minimal zoom distance.
-# [-10.0, 10.0]
+# 0.01 provides a (bad) ego-perspective.
+# [0.01, 10]
 
-MaxZoom = 20
+MaxZoom = 20.0
 # Maximal zoom distance.
-# [-10.0, 100.0]
+# [0.01, 100.0]
 
 CameraMovespeed = 1.25
 # How fast you can move around the camera in Camera Movement Mode or combat.
@@ -107,9 +112,12 @@ FieldOfView = 45
 # Field of view.
 # [0, 90]
 
-MinPitch = -1.0
-# Minimal pitch. Vanilla default is 0.54.
-# Setting it below 0.45 creates visual artifacts, but -1.0 gives most freedom.
+MinPitch = 0.34
+# Minimal pitch.
+# 0.54 is vanilla default and completely free of visual glitches.
+# -0.1 provides most freedom, but you often see the black sky, what can break immersion.
+# 0.34 is still mostly free of visual glitches, when using ImproveSky = true,
+# but limits your vision a lot, when you move uphill while zoomed in closely.
 # If you use UnlockPitch = false, don't set it below 0.0.
 # [-1.0, 1.0]
 

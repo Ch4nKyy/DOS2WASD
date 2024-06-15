@@ -45,13 +45,13 @@ void Settings::Load() noexcept
 
         config.Bind(unlock_pitch, TRUE);
         config.Bind<-10.0, 10.0>(pitch_speed, 1.0);
-        config.Bind<0, 10.0>(vertical_offset, 2);
-        config.Bind<-10.0, 10.0>(min_zoom, 2.2);
-        config.Bind<-10.0, 100.0>(max_zoom, 20);
-        config.Bind<0.0, 10.0>(zoom_speed, 4.0);
+        config.Bind<0, 10.0>(vertical_offset, 1.0);
+        config.Bind<0.01, 10.0>(min_zoom, 2.0);
+        config.Bind<0.01, 100.0>(max_zoom, 20.0);
+        config.Bind<0.0, 10.0>(zoom_speed, 1.0);
         config.Bind<0.0, 10.0>(camera_movespeed, 1.25);
         config.Bind<0.0, 90.0>(fov, 45.0);
-        config.Bind<-1.0, 1.0>(min_pitch, -1.0);
+        config.Bind<-1.0, 1.0>(min_pitch, 0.34);
         config.Bind<0.0, 1.0>(max_pitch, 1.0);
         config.Bind(improve_sky, TRUE);
     }
