@@ -56,10 +56,17 @@ int64_t GetCameraObjectHook::OverrideFunc(int64_t manager, int64_t* in_out)
         *(float*)(settings_base + 0xC64) = *(settings->vertical_offset);
         *(float*)(settings_base + 0xC6C) = *(settings->camera_movespeed);
         *(float*)(settings_base + 0xC74) = *(settings->fov);
-        *(float*)(settings_base + 0xCCC) = *(settings->min_pitch);
-        *(float*)(settings_base + 0xCE4) = *(settings->min_pitch);  // combat
-        *(float*)(settings_base + 0xCC0) = *(settings->max_pitch);
-        *(float*)(settings_base + 0xCD8) = *(settings->max_pitch);  // combat
+        if (*settings->unlock_pitch)
+        {
+            state->pitch += (*(settings->min_pitch) + *(settings->max_pitch)) / 2;
+        }
+        else
+        {
+            *(float*)(settings_base + 0xCCC) = *(settings->min_pitch);
+            *(float*)(settings_base + 0xCE4) = *(settings->min_pitch);  // combat
+            *(float*)(settings_base + 0xCC0) = *(settings->max_pitch);
+            *(float*)(settings_base + 0xCD8) = *(settings->max_pitch);  // combat
+        }
 
         state->should_reload_camera_settings = false;
     }

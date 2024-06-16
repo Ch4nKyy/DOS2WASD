@@ -1,14 +1,13 @@
 #include "PitchHook.hpp"
+#include "../Addresses/SettingsPtr.hpp"
 #include "../Settings.hpp"
 #include "../State.hpp"
 #include <algorithm>
 
 bool PitchHook::Prepare()
 {
-    std::array<uintptr_t, 2> address_array = {
-        AsAddress(dku::Hook::Assembly::search_pattern<"E8 F5 BA FF FF F2 0F 10 00">()),
-        AsAddress(dku::Hook::Assembly::search_pattern<"E8 35 BB FF FF">())
-    };
+    std::array<uintptr_t, 1> address_array = { AsAddress(
+        dku::Hook::Assembly::search_pattern<"E8 7A 26 00 00 F3 44 0F">()) };
     addresses = address_array;
 
     all_found = true;
@@ -41,12 +40,10 @@ void PitchHook::Enable()
     }
 }
 
-float* PitchHook::OverrideFunc(int64_t a1, float* a2, float a3)
+int64_t PitchHook::OverrideFunc(int64_t a1, int64_t a2, int64_t a3)
 {
     auto* state = State::GetSingleton();
     auto* settings = Settings::GetSingleton();
-
-    float* ret = OriginalFunc(a1, a2, a3);
 
     if (*settings->unlock_pitch)
     {
@@ -58,9 +55,12 @@ float* PitchHook::OverrideFunc(int64_t a1, float* a2, float a3)
             float min = *(settings->min_pitch);
             float max = *(settings->max_pitch);
             state->pitch = std::clamp(state->pitch, min, max);
+            *(float*)(SettingsPtr::Read() + 0xCCC) = state->pitch;
+            *(float*)(SettingsPtr::Read() + 0xCE4) = state->pitch;  // combat
+            *(float*)(SettingsPtr::Read() + 0xCC0) = state->pitch;
+            *(float*)(SettingsPtr::Read() + 0xCD8) = state->pitch;  // combat
         }
-        ret[1] = state->pitch;
     }
 
-    return ret;
+    return OriginalFunc(a1, a2, a3);
 }

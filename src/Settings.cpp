@@ -51,7 +51,7 @@ void Settings::Load() noexcept
         config.Bind<0.0, 10.0>(zoom_speed, 1.0);
         config.Bind<0.0, 10.0>(camera_movespeed, 1.25);
         config.Bind<0.0, 90.0>(fov, 45.0);
-        config.Bind<-1.0, 1.0>(min_pitch, 0.34);
+        config.Bind<-1.0, 1.0>(min_pitch, 0.31);
         config.Bind<0.0, 1.0>(max_pitch, 1.0);
         config.Bind(improve_sky, TRUE);
     }

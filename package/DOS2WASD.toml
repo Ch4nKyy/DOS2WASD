@@ -112,11 +112,11 @@ FieldOfView = 45
 # Field of view.
 # [0, 90]
 
-MinPitch = 0.34
+MinPitch = 0.31
 # Minimal pitch.
 # 0.54 is vanilla default and completely free of visual glitches.
 # -0.1 provides most freedom, but you often see the black sky, what can break immersion.
-# 0.34 is still mostly free of visual glitches, when using ImproveSky = true,
+# 0.31 is still mostly free of visual glitches, when using ImproveSky = true,
 # but limits your vision a lot, when you move uphill while zoomed in closely.
 # If you use UnlockPitch = false, don't set it below 0.0.
 # [-1.0, 1.0]
