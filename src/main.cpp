@@ -14,6 +14,9 @@
 #include "Hooks/DecideMoveUpdaterHook.hpp"
 #include "Hooks/GetCameraObjectHook.hpp"
 #include "Hooks/GetInputValueHook.hpp"
+#include "Hooks/HorizontalOffsetX.hpp"
+#include "Hooks/HorizontalOffsetY.hpp"
+#include "Hooks/HorizontalOffsetZ.hpp"
 #include "Hooks/HotkeyRotationInput.hpp"
 #include "Hooks/InsideUpdateInteractMoveCavehook.hpp"
 #include "Hooks/MouseDeltaCavehook.hpp"
@@ -88,13 +91,10 @@ BOOL APIENTRY DllMain(HMODULE a_hModule, DWORD a_ul_reason_for_call, LPVOID a_lp
         bool is_controller = IsInControllerMode::Prepare();
         bool follow_on_change = FollowOnChararacterChange::Prepare();
         bool settings_ptr = SettingsPtr::Prepare();
-        bool mouse_rot_input = MouseRotationInput::Prepare();
-        bool hotkey_rot_input = HotkeyRotationInput::Prepare();
         if (wasd_unlock && load_input_config && after_initial_load_inputconfig_hook &&
             concat_inputconfig_path_hook && movement_input && after_changing_keybind_in_menu_hook &&
             cam_obj && center_cam_always_jumps && fix_walking1 && fix_walking2 && fix_warpmouse &&
-            is_controller && follow_on_change && settings_ptr && mouse_rot_input &&
-            hotkey_rot_input)
+            is_controller && follow_on_change && settings_ptr)
         {
             InputHook::Enable(a_hModule);  // throws on error
             WASDUnlock::Enable();
@@ -113,8 +113,6 @@ BOOL APIENTRY DllMain(HMODULE a_hModule, DWORD a_ul_reason_for_call, LPVOID a_lp
             FixWarpMouseInWindowCrash::Activate();
             FollowOnChararacterChange::Enable();
             FollowOnChararacterChange::Activate();
-            MouseRotationInput::Enable();
-            HotkeyRotationInput::Enable();
 
             // needed for both improved mouselook AND interact move canceller
             bool check_command_inputs_hook = CheckCommandInputsHook::Prepare();
@@ -184,13 +182,25 @@ BOOL APIENTRY DllMain(HMODULE a_hModule, DWORD a_ul_reason_for_call, LPVOID a_lp
             bool zoom = ZoomHook::Prepare();
             bool farplane1 = AtmFarPlaneOverride::Prepare();
             bool farplane2 = AtmFarPlaneOverride2::Prepare();
-            if (mouse_delta && pitch && zoom && farplane1 && farplane2)
+            bool mouse_rot_input = MouseRotationInput::Prepare();
+            bool hotkey_rot_input = HotkeyRotationInput::Prepare();
+            bool horizontal_offset_x = HorizontalOffsetX::Prepare();
+            bool horizontal_offset_y = HorizontalOffsetY::Prepare();
+            bool horizontal_offset_z = HorizontalOffsetZ::Prepare();
+            if (mouse_delta && pitch && zoom && farplane1 && farplane2 && mouse_rot_input &&
+                hotkey_rot_input && horizontal_offset_x && horizontal_offset_y &&
+                horizontal_offset_z)
             {
                 MouseDeltaCavehook::Enable();
                 PitchHook::Enable();
                 ZoomHook::Enable();
                 AtmFarPlaneOverride::Enable();
                 AtmFarPlaneOverride2::Enable();
+                MouseRotationInput::Enable();
+                HotkeyRotationInput::Enable();
+                HorizontalOffsetX::Enable();
+                HorizontalOffsetY::Enable();
+                HorizontalOffsetZ::Enable();
             }
             else
             {

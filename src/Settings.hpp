@@ -40,6 +40,7 @@ public:
     Boolean unlock_pitch{ "UnlockPitch", "Camera" };
     Double pitch_speed{ "PitchSpeed", "Camera" };
     Double vertical_offset{ "VerticalOffset", "Camera" };
+    Double horizontal_offset{ "HorizontalOffset", "Camera" };
     Double min_zoom{ "MinZoom", "Camera" };
     Double max_zoom{ "MaxZoom", "Camera" };
     Double zoom_speed{ "ZoomSpeed", "Camera" };

@@ -47,7 +47,8 @@ void Settings::Load() noexcept
         config.Bind<0.0, 100.0>(hotkey_rotation_speed, 1.5);
         config.Bind(unlock_pitch, TRUE);
         config.Bind<-10.0, 10.0>(pitch_speed, 1.0);
-        config.Bind<0, 10.0>(vertical_offset, 1.0);
+        config.Bind<0.0, 10.0>(vertical_offset, 0.95);
+        config.Bind<-10.0, 10.0>(horizontal_offset, 0.3);
         config.Bind<0.01, 10.0>(min_zoom, 2.0);
         config.Bind<0.01, 100.0>(max_zoom, 20.0);
         config.Bind<0.0, 10.0>(zoom_speed, 1.0);

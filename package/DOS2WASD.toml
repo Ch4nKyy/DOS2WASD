@@ -115,10 +115,14 @@ MaxPitch = 1.0
 # Maximal pitch.
 # [0, 1.0]
 
-VerticalOffset = 1.0
-# Vertical offset multiplier of the camera. Relevant when you zoom in closely.
-# Personal preference. If you mainly play lizards, you might increase it to 1.2 or so.
-# [0.0, 2.0]
+VerticalOffset =  0.95
+# Vertical offset of the camera. Relevant when you zoom in closely.
+# [0.0, 10.0]
+
+HorizontalOffset = 0.3
+# Horizontal offset of the camera. Relevant when you zoom in closely.
+# A negative value will switch it to the other side.
+# [-10.0, 10.0]
 
 MinZoom = 2.0
 # Minimal zoom distance.
