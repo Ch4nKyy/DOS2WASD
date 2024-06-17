@@ -52,7 +52,7 @@ void Settings::Load() noexcept
         config.Bind<0.01, 10.0>(min_zoom, 2.0);
         config.Bind<0.01, 100.0>(max_zoom, 20.0);
         config.Bind<-1.0, 100.0>(dialog_zoom, 7.0);
-        config.Bind<0.0, 10.0>(dialog_vertical_offset, 0.0);
+        config.Bind<0.0, 10.0>(dialog_vertical_offset, 0.2);
         config.Bind<0.0, 10.0>(zoom_speed, 1.0);
         config.Bind<0.0, 10.0>(camera_movespeed, 1.25);
         config.Bind<0.0, 90.0>(fov, 45.0);

@@ -140,7 +140,7 @@ DialogZoom = 7.0
 # but then I'd recommend setting DialogVerticalOffset = 0.5 to better focus NPCs.
 # [-1.0, 100.0]
 
-DialogVerticalOffset = 0.0
+DialogVerticalOffset = 0.2
 # Vertical offset of the camera during dialog.
 # [0.0, 10.0]
 
