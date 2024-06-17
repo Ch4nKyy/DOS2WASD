@@ -43,6 +43,8 @@ public:
     Double horizontal_offset{ "HorizontalOffset", "Camera" };
     Double min_zoom{ "MinZoom", "Camera" };
     Double max_zoom{ "MaxZoom", "Camera" };
+    Double dialog_zoom{ "DialogZoom", "Camera" };
+    Double dialog_vertical_offset{ "DialogVerticalOffset", "Camera" };
     Double zoom_speed{ "ZoomSpeed", "Camera" };
     Double camera_movespeed{ "CameraMovespeed", "Camera" };
     Double fov{ "FieldOfView", "Camera" };

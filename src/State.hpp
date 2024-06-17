@@ -75,6 +75,7 @@ public:
     float pitch = 0.6f;
     bool should_reload_camera_settings = true;
     int override_atm_far_plane = 0;
+    float zoom_before_dialog = 0.0f;
 
 private:
     //core

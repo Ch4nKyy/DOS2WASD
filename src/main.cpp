@@ -6,6 +6,8 @@
 #include "Hooks/AtmFarPlaneOverride.hpp"
 #include "Hooks/AtmFarPlaneOverride2.hpp"
 #include "Hooks/CallSpecificCommandFunctionPre2Cavehook.hpp"
+#include "Hooks/CameraZoomOnDialogEnd.hpp"
+#include "Hooks/CameraZoomOnDialogStart.hpp"
 #include "Hooks/CastOrCancelAbilityKeydownCavehook.hpp"
 #include "Hooks/CastOrCancelAbilityKeyupHook.hpp"
 #include "Hooks/CheckCommandInputsHook.hpp"
@@ -21,6 +23,7 @@
 #include "Hooks/InsideUpdateInteractMoveCavehook.hpp"
 #include "Hooks/MouseDeltaCavehook.hpp"
 #include "Hooks/MouseRotationInput.hpp"
+#include "Hooks/OverrideDialogVerticalOffset.hpp"
 #include "Hooks/PitchHook.hpp"
 #include "Hooks/PollEventHook.hpp"
 #include "Hooks/SDL_SetWindowGrabHook.hpp"
@@ -38,6 +41,7 @@
 #include "Patches/FixWalking2.hpp"
 #include "Patches/FixWarpMouseInWindowCrash.hpp"
 #include "Patches/FollowOnChararacterChange.hpp"
+#include "Patches/OverrideDialogVerticalOffset2.hpp"
 #include "Settings.hpp"
 #include "State.hpp"
 #include "VersionInfo.hpp"
@@ -53,7 +57,7 @@ BOOL APIENTRY DllMain(HMODULE a_hModule, DWORD a_ul_reason_for_call, LPVOID a_lp
         }
 #endif
         dku::Logger::Init(Plugin::NAME, std::to_string(Plugin::Version));
-        dku::Hook::Trampoline::AllocTrampoline(1 << 10);
+        dku::Hook::Trampoline::AllocTrampoline(1 << 11);
 
         VersionInfo::Print(a_hModule);
 
@@ -187,9 +191,14 @@ BOOL APIENTRY DllMain(HMODULE a_hModule, DWORD a_ul_reason_for_call, LPVOID a_lp
             bool horizontal_offset_x = HorizontalOffsetX::Prepare();
             bool horizontal_offset_y = HorizontalOffsetY::Prepare();
             bool horizontal_offset_z = HorizontalOffsetZ::Prepare();
+            bool zoom_on_dialog_end = CameraZoomOnDialogEnd::Prepare();
+            bool zoom_on_dialog_start = CameraZoomOnDialogStart::Prepare();
+            bool dialog_vert_offset1 = OverrideDialogVerticalOffset::Prepare();
+            bool dialog_vert_offset2 = OverrideDialogVerticalOffset2::Prepare();
             if (mouse_delta && pitch && zoom && farplane1 && farplane2 && mouse_rot_input &&
                 hotkey_rot_input && horizontal_offset_x && horizontal_offset_y &&
-                horizontal_offset_z)
+                horizontal_offset_z && zoom_on_dialog_end && zoom_on_dialog_start &&
+                dialog_vert_offset1 && dialog_vert_offset2)
             {
                 MouseDeltaCavehook::Enable();
                 PitchHook::Enable();
@@ -201,6 +210,11 @@ BOOL APIENTRY DllMain(HMODULE a_hModule, DWORD a_ul_reason_for_call, LPVOID a_lp
                 HorizontalOffsetX::Enable();
                 HorizontalOffsetY::Enable();
                 HorizontalOffsetZ::Enable();
+                CameraZoomOnDialogEnd::Enable();
+                CameraZoomOnDialogStart::Enable();
+                OverrideDialogVerticalOffset::Enable();
+                OverrideDialogVerticalOffset2::Enable();
+                OverrideDialogVerticalOffset2::Activate();
             }
             else
             {

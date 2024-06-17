@@ -133,6 +133,17 @@ MaxZoom = 20.0
 # Maximal zoom distance.
 # [0.01, 100.0]
 
+DialogZoom = 7.0
+# Zoom distance during dialog.
+# Vanilla value is ~12.
+# If set to -1, the camera will not change zoom level during dialog,
+# but then I'd recommend setting DialogVerticalOffset = 0.5 to better focus NPCs.
+# [-1.0, 100.0]
+
+DialogVerticalOffset = 0.0
+# Vertical offset of the camera during dialog.
+# [0.0, 10.0]
+
 CameraMovespeed = 1.25
 # How fast you can move around the camera in Camera Movement Mode or combat.
 # [0.0, 10.0]
