@@ -45,9 +45,9 @@ void InputconfigPatcher::ReadAndWriteInputconfig()
     }
 
     data = UpdateData(data, "CharacterMoveBackward", "CameraBackward",
-        { "c:leftstick_yneg", "key:s", "key:down" });
+        { "c:leftstick_ypos", "key:s", "key:down" });
     data = UpdateData(data, "CharacterMoveForward", "CameraForward",
-        { "c:leftstick_ypos", "key:w", "key:up" });
+        { "c:leftstick_yneg", "key:w", "key:up" });
     data = UpdateData(data, "CharacterMoveLeft", "CameraLeft",
         { "c:leftstick_xneg", "key:a", "key:left" });
     data = UpdateData(data, "CharacterMoveRight", "CameraRight",
@@ -109,22 +109,9 @@ json InputconfigPatcher::UpdateData(json data, std::string character_command,
     std::string camera_command, json camera_default_keys)
 {
     auto keys_to_bind = camera_default_keys;
-    if (data.contains(character_command))
+    if (data.contains(camera_command))
     {
-        keys_to_bind = data[character_command];
-        // Camera and Character input have flipped y axis.
-        // I think in BG3 they are flipped the other way around.
-        for (json::iterator it = keys_to_bind.begin(); it != keys_to_bind.end(); ++it)
-        {
-            if (*it == "c:leftstick_yneg")
-            {
-                *it = "c:leftstick_ypos";
-            }
-            else if (*it == "c:leftstick_ypos")
-            {
-                *it = "c:leftstick_yneg";
-            }
-        }
+        keys_to_bind = data[camera_command];
     }
 
     // TODO character_leftright_is_rotate
