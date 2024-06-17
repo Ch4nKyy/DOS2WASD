@@ -35,6 +35,8 @@ public:
 
     Boolean block_interact_move{ "BlockInteractMove", "InteractMoveBlocker" };
 
+    Double mouse_rotation_speed{ "MouseRotationSpeed", "Camera" };
+    Double hotkey_rotation_speed{ "HotkeyRotationSpeed", "Camera" };
     Boolean unlock_pitch{ "UnlockPitch", "Camera" };
     Double pitch_speed{ "PitchSpeed", "Camera" };
     Double vertical_offset{ "VerticalOffset", "Camera" };

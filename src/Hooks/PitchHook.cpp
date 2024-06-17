@@ -50,7 +50,8 @@ int64_t PitchHook::OverrideFunc(int64_t a1, int64_t a2, int64_t a3)
         bool is_rotating = *(bool*)(a1 + 1113) & 1;
         if (is_rotating)
         {
-            state->pitch += (float)state->dy * 0.0025f * *settings->pitch_speed;
+            state->pitch += (float)state->dy * 0.0025f * *settings->pitch_speed *
+                            *settings->mouse_rotation_speed;
             state->dy = 0;
             float min = *(settings->min_pitch);
             float max = *(settings->max_pitch);

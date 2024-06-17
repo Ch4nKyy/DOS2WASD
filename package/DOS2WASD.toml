@@ -72,6 +72,25 @@ BlockInteractMove = false
 
 [Camera]
 
+MouseRotationSpeed = 1.0
+# Mouse sensitivity when rotating.
+# Affects yaw, and pitch if unlocked.
+# Please note that the rotation speed scales with FPS.
+# The more FPS you have, the faster you rotate.
+# So if you change your FPS limiter, adapt the rotation speed.
+# [0.0, 100.0]
+
+HotkeyRotationSpeed = 1.5
+# How fast the "Rotate Left" and "Rotate Right" hotkeys rotate.
+# [0.0, 100.0]
+
+ZoomSpeed = 1.0
+# Controls the zoom speed, also for the mouse scroll wheel.
+# Please note that the zoom speed scales INVERSELY with FPS.
+# The more FPS you have, the slower you zoom with the mouse wheel.
+# So if you change your FPS limiter, adapt the zoom speed.
+# [0.0, 10.0]
+
 UnlockPitch = true
 # If true, you can freely change the camera pitch when you hold Camera Rotation.
 # (Default: Middle Mouse Button)
@@ -79,16 +98,22 @@ UnlockPitch = true
 # [true, false]
 
 PitchSpeed = 1.0
-# If UnlockPitch is true, this controls the pitch speed.
+# Allows you to fine-tune the pitch speed independantly from the yaw speed.
 # If negative, the pitch axis is inverted.
 # [-10.0, 10.0]
 
-ZoomSpeed = 1.0
-# Controls the zoom speed, also for the mouse scroll wheel.
-# For most people, 1.0 should be fine.
-# If you play with extremly high FPS, like 500 or so, you might want to increase it to 4.0 or so,
-# because the zoom speed effectively decreases with higher FPS.
-# [0.0, 10.0]
+MinPitch = 0.31
+# Minimal pitch.
+# 0.54 is vanilla default and completely free of visual glitches.
+# -0.1 provides most freedom, but you often see the black sky, what can break immersion.
+# 0.31 is still mostly free of visual glitches, when using ImproveSky = true,
+# but limits your vision a lot, when you move uphill while zoomed in closely.
+# If you use UnlockPitch = false, don't set it below 0.0.
+# [-1.0, 1.0]
+
+MaxPitch = 1.0
+# Maximal pitch.
+# [0, 1.0]
 
 VerticalOffset = 1.0
 # Vertical offset multiplier of the camera. Relevant when you zoom in closely.
@@ -111,19 +136,6 @@ CameraMovespeed = 1.25
 FieldOfView = 45
 # Field of view.
 # [0, 90]
-
-MinPitch = 0.31
-# Minimal pitch.
-# 0.54 is vanilla default and completely free of visual glitches.
-# -0.1 provides most freedom, but you often see the black sky, what can break immersion.
-# 0.31 is still mostly free of visual glitches, when using ImproveSky = true,
-# but limits your vision a lot, when you move uphill while zoomed in closely.
-# If you use UnlockPitch = false, don't set it below 0.0.
-# [-1.0, 1.0]
-
-MaxPitch = 1.0
-# Maximal pitch.
-# [0, 1.0]
 
 ImproveSky = true
 # If true, the draw distance of the skybox/background is increased.

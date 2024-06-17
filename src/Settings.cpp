@@ -43,6 +43,8 @@ void Settings::Load() noexcept
 
         config.Bind(block_interact_move, FALSE);
 
+        config.Bind<0.0, 100.0>(mouse_rotation_speed, 1.0);
+        config.Bind<0.0, 100.0>(hotkey_rotation_speed, 1.5);
         config.Bind(unlock_pitch, TRUE);
         config.Bind<-10.0, 10.0>(pitch_speed, 1.0);
         config.Bind<0, 10.0>(vertical_offset, 1.0);

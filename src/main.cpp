@@ -14,8 +14,10 @@
 #include "Hooks/DecideMoveUpdaterHook.hpp"
 #include "Hooks/GetCameraObjectHook.hpp"
 #include "Hooks/GetInputValueHook.hpp"
+#include "Hooks/HotkeyRotationInput.hpp"
 #include "Hooks/InsideUpdateInteractMoveCavehook.hpp"
 #include "Hooks/MouseDeltaCavehook.hpp"
+#include "Hooks/MouseRotationInput.hpp"
 #include "Hooks/PitchHook.hpp"
 #include "Hooks/PollEventHook.hpp"
 #include "Hooks/SDL_SetWindowGrabHook.hpp"
@@ -86,10 +88,13 @@ BOOL APIENTRY DllMain(HMODULE a_hModule, DWORD a_ul_reason_for_call, LPVOID a_lp
         bool is_controller = IsInControllerMode::Prepare();
         bool follow_on_change = FollowOnChararacterChange::Prepare();
         bool settings_ptr = SettingsPtr::Prepare();
+        bool mouse_rot_input = MouseRotationInput::Prepare();
+        bool hotkey_rot_input = HotkeyRotationInput::Prepare();
         if (wasd_unlock && load_input_config && after_initial_load_inputconfig_hook &&
             concat_inputconfig_path_hook && movement_input && after_changing_keybind_in_menu_hook &&
             cam_obj && center_cam_always_jumps && fix_walking1 && fix_walking2 && fix_warpmouse &&
-            is_controller && follow_on_change && settings_ptr)
+            is_controller && follow_on_change && settings_ptr && mouse_rot_input &&
+            hotkey_rot_input)
         {
             InputHook::Enable(a_hModule);  // throws on error
             WASDUnlock::Enable();
@@ -108,6 +113,8 @@ BOOL APIENTRY DllMain(HMODULE a_hModule, DWORD a_ul_reason_for_call, LPVOID a_lp
             FixWarpMouseInWindowCrash::Activate();
             FollowOnChararacterChange::Enable();
             FollowOnChararacterChange::Activate();
+            MouseRotationInput::Enable();
+            HotkeyRotationInput::Enable();
 
             // needed for both improved mouselook AND interact move canceller
             bool check_command_inputs_hook = CheckCommandInputsHook::Prepare();
