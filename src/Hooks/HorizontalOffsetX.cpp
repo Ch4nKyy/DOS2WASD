@@ -71,6 +71,7 @@ bool HorizontalOffsetX::ShouldNotUseOffsetNow(int64_t manager)
     {
         return true;
     }
+    return false;
 }
 
 void HorizontalOffsetX::Enable()
