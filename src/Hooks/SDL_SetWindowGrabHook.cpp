@@ -1,5 +1,5 @@
 #include "SDL_SetWindowGrabHook.hpp"
-#include "../State.hpp"
+#include "State.hpp"
 #include "SDL.h"
 
 bool SDL_SetWindowGrabHook::Prepare()

@@ -1,6 +1,6 @@
 #include "CameraZoomOnDialogStart.hpp"
-#include "../Settings.hpp"
-#include "../State.hpp"
+#include "Settings.hpp"
+#include "State.hpp"
 
 struct CameraZoomOnDialogStartProlog : Xbyak::CodeGenerator
 {

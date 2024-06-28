@@ -1,5 +1,5 @@
-#include "../Settings.hpp"
-#include "../State.hpp"
+#include "Settings.hpp"
+#include "State.hpp"
 #include "SetOrResetCursorRotateCavehook.hpp"
 
 struct SetOrResetCursorRotateProlog : Xbyak::CodeGenerator

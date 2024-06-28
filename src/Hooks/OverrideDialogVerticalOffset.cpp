@@ -1,6 +1,6 @@
 #include "OverrideDialogVerticalOffset.hpp"
-#include "../Settings.hpp"
-#include "../State.hpp"
+#include "Settings.hpp"
+#include "State.hpp"
 
 struct OverrideDialogVerticalOffsetProlog : Xbyak::CodeGenerator
 {

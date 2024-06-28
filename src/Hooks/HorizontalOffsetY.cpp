@@ -1,7 +1,7 @@
 #include "HorizontalOffsetY.hpp"
-#include "../Settings.hpp"
-#include "../State.hpp"
-#include "../Structs/Vector3.hpp"
+#include "Settings.hpp"
+#include "State.hpp"
+#include "Structs/Vector3.hpp"
 #include "HorizontalOffsetX.hpp"
 
 struct HorizontalOffsetYProlog : Xbyak::CodeGenerator

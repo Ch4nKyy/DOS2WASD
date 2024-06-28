@@ -1,5 +1,5 @@
-#include "../Settings.hpp"
-#include "../State.hpp"
+#include "Settings.hpp"
+#include "State.hpp"
 #include "OverrideDialogVerticalOffset2.hpp"
 
 bool OverrideDialogVerticalOffset2::Prepare()

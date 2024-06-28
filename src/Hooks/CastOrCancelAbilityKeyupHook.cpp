@@ -1,5 +1,5 @@
-#include "../Settings.hpp"
-#include "../State.hpp"
+#include "Settings.hpp"
+#include "State.hpp"
 #include "CastOrCancelAbilityKeyupHook.hpp"
 
 bool CastOrCancelAbilityKeyupHook::Prepare()

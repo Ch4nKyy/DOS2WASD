@@ -1,6 +1,6 @@
 #include "AtmFarPlaneOverride2.hpp"
-#include "../Settings.hpp"
-#include "../State.hpp"
+#include "Settings.hpp"
+#include "State.hpp"
 
 bool AtmFarPlaneOverride2::Prepare()
 {

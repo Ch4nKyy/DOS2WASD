@@ -1,5 +1,5 @@
 #include "SettingsPtr.hpp"
-#include "../State.hpp"
+#include "State.hpp"
 
 bool SettingsPtr::Prepare()
 {

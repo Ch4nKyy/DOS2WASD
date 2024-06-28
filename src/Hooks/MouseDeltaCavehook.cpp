@@ -1,6 +1,6 @@
 #include "MouseDeltaCavehook.hpp"
-#include "../Settings.hpp"
-#include "../State.hpp"
+#include "Settings.hpp"
+#include "State.hpp"
 
 struct MouseDeltaProlog : Xbyak::CodeGenerator
 {

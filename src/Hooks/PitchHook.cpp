@@ -1,7 +1,7 @@
 #include "PitchHook.hpp"
-#include "../Addresses/SettingsPtr.hpp"
-#include "../Settings.hpp"
-#include "../State.hpp"
+#include "Addresses/SettingsPtr.hpp"
+#include "Settings.hpp"
+#include "State.hpp"
 #include <algorithm>
 
 bool PitchHook::Prepare()

@@ -1,6 +1,6 @@
 #include "ZoomHook.hpp"
-#include "../Settings.hpp"
-#include "../State.hpp"
+#include "Settings.hpp"
+#include "State.hpp"
 
 bool ZoomHook::Prepare()
 {

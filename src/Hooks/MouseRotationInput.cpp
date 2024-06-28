@@ -1,6 +1,6 @@
 #include "MouseRotationInput.hpp"
-#include "../Settings.hpp"
-#include "../State.hpp"
+#include "Settings.hpp"
+#include "State.hpp"
 
 bool MouseRotationInput::Prepare()
 {

@@ -1,6 +1,6 @@
 #include "FollowOnChararacterChange.hpp"
-#include "../Settings.hpp"
-#include "../State.hpp"
+#include "Settings.hpp"
+#include "State.hpp"
 
 bool FollowOnChararacterChange::Prepare()
 {

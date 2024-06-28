@@ -1,9 +1,9 @@
 #include "GetInputValueHook.hpp"
-#include "../Addresses/IsInControllerMode.hpp"
-#include "../GameCommand.hpp"
-#include "../Settings.hpp"
-#include "../State.hpp"
-#include "../Structs/Vector2.hpp"
+#include "Addresses/IsInControllerMode.hpp"
+#include "GameCommand.hpp"
+#include "Settings.hpp"
+#include "State.hpp"
+#include "Structs/Vector2.hpp"
 
 using enum GameCommand;
 

@@ -1,8 +1,8 @@
 #include "CheckContextMenuOrCancelActionHook.hpp"
-#include "../Addresses/IsInControllerMode.hpp"
-#include "../GameCommand.hpp"
-#include "../Settings.hpp"
-#include "../State.hpp"
+#include "Addresses/IsInControllerMode.hpp"
+#include "GameCommand.hpp"
+#include "Settings.hpp"
+#include "State.hpp"
 
 using enum GameCommand;
 
