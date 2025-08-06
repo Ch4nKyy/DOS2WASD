@@ -14,7 +14,7 @@ include(GNUInstallDirs)
 # info
 project(
     DOS2WASD
-    VERSION 1.2.0
+    VERSION 1.2.1
     LANGUAGES CXX
 )
 

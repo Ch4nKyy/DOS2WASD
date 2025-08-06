@@ -7,6 +7,7 @@
 #include "Hooks/AtmFarPlaneOverride2.hpp"
 #include "Hooks/CallSpecificCommandFunctionPre2Cavehook.hpp"
 #include "Hooks/CameraZoomOnDialogEnd.hpp"
+#include "Hooks/CameraZoomOnDialogEnd2.hpp"
 #include "Hooks/CameraZoomOnDialogStart.hpp"
 #include "Hooks/CastOrCancelAbilityKeydownCavehook.hpp"
 #include "Hooks/CastOrCancelAbilityKeyupHook.hpp"
@@ -192,13 +193,14 @@ BOOL APIENTRY DllMain(HMODULE a_hModule, DWORD a_ul_reason_for_call, LPVOID a_lp
             bool horizontal_offset_y = HorizontalOffsetY::Prepare();
             bool horizontal_offset_z = HorizontalOffsetZ::Prepare();
             bool zoom_on_dialog_end = CameraZoomOnDialogEnd::Prepare();
+            bool zoom_on_dialog_end2 = CameraZoomOnDialogEnd2::Prepare();
             bool zoom_on_dialog_start = CameraZoomOnDialogStart::Prepare();
             bool dialog_vert_offset1 = OverrideDialogVerticalOffset::Prepare();
             bool dialog_vert_offset2 = OverrideDialogVerticalOffset2::Prepare();
             if (mouse_delta && pitch && zoom && farplane1 && farplane2 && mouse_rot_input &&
                 hotkey_rot_input && horizontal_offset_x && horizontal_offset_y &&
-                horizontal_offset_z && zoom_on_dialog_end && zoom_on_dialog_start &&
-                dialog_vert_offset1 && dialog_vert_offset2)
+                horizontal_offset_z && zoom_on_dialog_end && zoom_on_dialog_end2 &&
+                zoom_on_dialog_start && dialog_vert_offset1 && dialog_vert_offset2)
             {
                 MouseDeltaCavehook::Enable();
                 PitchHook::Enable();
@@ -211,6 +213,7 @@ BOOL APIENTRY DllMain(HMODULE a_hModule, DWORD a_ul_reason_for_call, LPVOID a_lp
                 HorizontalOffsetY::Enable();
                 HorizontalOffsetZ::Enable();
                 CameraZoomOnDialogEnd::Enable();
+                CameraZoomOnDialogEnd2::Enable();
                 CameraZoomOnDialogStart::Enable();
                 OverrideDialogVerticalOffset::Enable();
                 OverrideDialogVerticalOffset2::Enable();
